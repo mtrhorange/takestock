@@ -11,6 +11,7 @@
     "creationTimestamp": 1739282134125,
     "databaseType": "sql",
     "devDatabaseType": "h2Memory",
+    "directoryPath": "./",
     "enableHibernateCache": true,
     "enableTranslation": false,
     "entities": [],

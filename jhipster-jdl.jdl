@@ -1,0 +1,133 @@
+application {
+  config {
+    baseName gateway,
+    applicationType gateway,
+    authenticationType jwt,
+    packageName com.ecommerce.gateway,
+    serviceDiscoveryType eureka,
+    databaseType sql,
+    prodDatabaseType mysql,
+    buildTool maven,
+    clientFramework react
+  }
+}
+
+application {
+  config {
+    baseName productService,
+    applicationType microservice,
+    authenticationType jwt,
+    packageName com.ecommerce.product,
+    serviceDiscoveryType eureka,
+    databaseType mongodb,
+    buildTool maven
+  }
+  entities Product, UserActivity
+}
+
+application {
+  config {
+    baseName userService,
+    applicationType microservice,
+    authenticationType jwt,
+    packageName com.ecommerce.user,
+    serviceDiscoveryType eureka,
+    databaseType sql,
+    prodDatabaseType mysql,
+    buildTool maven
+  }
+  entities User, Address
+}
+
+application {
+  config {
+    baseName orderService,
+    applicationType microservice,
+    authenticationType jwt,
+    packageName com.ecommerce.order,
+    serviceDiscoveryType eureka,
+    databaseType sql,
+    prodDatabaseType mysql,
+    cacheProvider redis,
+    buildTool maven
+  }
+  entities Order, OrderItem, Payment
+}
+
+entity Product {
+  name String required,
+  description String,
+  price BigDecimal required,
+  category String required,
+  brand String,
+  stock Integer required,
+  imageUrl String,
+  tags TextBlob // FIXED: Replaced String[] with TextBlob
+}
+
+entity UserActivity {
+  userId String required,
+  productId String required,
+  action String required, // viewed, purchased, added_to_cart
+  timestamp Instant required
+}
+
+entity User {
+  login String required unique,
+  email String required unique,
+  passwordHash String required,
+  firstName String,
+  lastName String,
+  activated Boolean required,
+  langKey String
+}
+
+entity Address {
+  userId Long required,
+  street String required,
+  city String required,
+  state String required,
+  country String required,
+  postalCode String required
+}
+
+entity Order {
+  userId Long required,
+  totalPrice BigDecimal required,
+  orderStatus String required,
+  paymentStatus String required,
+  createdDate Instant required
+}
+
+entity OrderItem {
+  orderId Long required,
+  productId String required,
+  quantity Integer required,
+  price BigDecimal required
+}
+
+entity Payment {
+  orderId Long required,
+  paymentMethod String required,
+  transactionId String required,
+  paymentStatus String required,
+  paymentDate Instant required
+}
+
+relationship OneToMany {
+  Order{orderItems} to OrderItem{order}
+}
+
+relationship ManyToOne {
+  Address{user} to User
+}
+
+relationship OneToOne {
+  Payment{order} to Order
+}
+
+paginate Product with pagination
+paginate Order, OrderItem, Payment with pagination
+
+dto * with mapstruct
+service * with serviceClass

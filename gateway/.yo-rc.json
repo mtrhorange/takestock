@@ -1,0 +1,24 @@
+{
+  "generator-jhipster": {
+    "applicationIndex": 0,
+    "applicationType": "gateway",
+    "authenticationType": "jwt",
+    "baseName": "gateway",
+    "buildTool": "maven",
+    "clientFramework": "react",
+    "databaseType": "sql",
+    "devServerPort": 9060,
+    "entities": [],
+    "jhipsterVersion": "8.9.0",
+    "jwtSecretKey": "MzhiYzAzMDA3MzdlMjE5NzIwYTY3NWFlNDEwM2NkY2IxOTc5Mzc4ZmM3NTVlYmVkMTJkOTYzZjUzOTRiNzlmOTU3MzgxNGJiNjA4OWZlYzBhZGQzMDRlOGVkMGY4MDAyNGM5MWI5ODk0NzZmNDgzNjA0OWY1NzZhYjA3MjcyZTA=",
+    "languages": ["en"],
+    "monorepository": true,
+    "nativeLanguage": "en",
+    "packageName": "com.ecommerce.gateway",
+    "prodDatabaseType": "mysql",
+    "reactive": true,
+    "serverPort": 8080,
+    "serviceDiscoveryType": "eureka",
+    "skipCommitHook": true
+  }
+}
