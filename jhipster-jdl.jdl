@@ -36,7 +36,7 @@ application {
     prodDatabaseType mysql,
     buildTool maven
   }
-  entities User, Address
+  entities Address
 }
 
 application {
@@ -66,24 +66,14 @@ entity Product {
 }
 
 entity UserActivity {
-  userId String required,
+  userId1 String required,
   productId String required,
   action String required, // viewed, purchased, added_to_cart
   timestamp Instant required
 }
 
-entity User {
-  login String required unique,
-  email String required unique,
-  passwordHash String required,
-  firstName String,
-  lastName String,
-  activated Boolean required,
-  langKey String
-}
-
 entity Address {
-  userId Long required,
+  userId1 Long required,
   street String required,
   city String required,
   state String required,
@@ -92,7 +82,7 @@ entity Address {
 }
 
 entity Order {
-  userId Long required,
+  userId1 Long required,
   totalPrice BigDecimal required,
   orderStatus String required,
   paymentStatus String required,
@@ -100,14 +90,12 @@ entity Order {
 }
 
 entity OrderItem {
-  orderId Long required,
   productId String required,
   quantity Integer required,
   price BigDecimal required
 }
 
 entity Payment {
-  orderId Long required,
   paymentMethod String required,
   transactionId String required,
   paymentStatus String required,
@@ -116,10 +104,6 @@ entity Payment {
 
 relationship OneToMany {
   Order{orderItems} to OrderItem{order}
-}
-
-relationship ManyToOne {
-  Address{user} to User
 }
 
 relationship OneToOne {

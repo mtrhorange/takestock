@@ -6,7 +6,7 @@
     "baseName": "userService",
     "buildTool": "maven",
     "databaseType": "sql",
-    "entities": ["User", "Address"],
+    "entities": ["Address"],
     "jhipsterVersion": "8.9.0",
     "jwtSecretKey": "YmJmY2MwNzFjZWNmNTA4NjQyOTIxOGJiYjdhMTJiNTk1ZDcwYzYxMmU5MTE5N2RmYjVjNjI5YmZiNzRkZmYyMTk3ODlhMzBhYmM5NzkzNjY0OGM4Y2U1MzRmNzkzOTQ2NmVkNTUyMzY0MjUyYWFkOGNjNWI1ZjY5ZDZjMzIyZDg=",
     "languages": ["en"],

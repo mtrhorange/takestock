@@ -8,7 +8,7 @@
   "dto": "mapstruct",
   "fields": [
     {
-      "fieldName": "userId",
+      "fieldName": "userId1",
       "fieldType": "String",
       "fieldValidateRules": ["required"]
     },

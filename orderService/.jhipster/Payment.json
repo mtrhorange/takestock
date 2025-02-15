@@ -8,11 +8,6 @@
   "dto": "mapstruct",
   "fields": [
     {
-      "fieldName": "orderId",
-      "fieldType": "Long",
-      "fieldValidateRules": ["required"]
-    },
-    {
       "fieldName": "paymentMethod",
       "fieldType": "String",
       "fieldValidateRules": ["required"]

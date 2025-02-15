@@ -6,10 +6,9 @@
   "clientRootFolder": "orderService",
   "databaseType": "sql",
   "dto": "mapstruct",
-  "entityTableName": "jhi_order",
   "fields": [
     {
-      "fieldName": "userId",
+      "fieldName": "userId1",
       "fieldType": "Long",
       "fieldValidateRules": ["required"]
     },
