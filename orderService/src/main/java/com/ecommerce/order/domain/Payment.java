@@ -25,10 +25,6 @@ public class Payment implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "order_id", nullable = false)
-    private Long orderId;
-
-    @NotNull
     @Column(name = "payment_method", nullable = false)
     private String paymentMethod;
 
@@ -62,19 +58,6 @@ public class Payment implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getOrderId() {
-        return this.orderId;
-    }
-
-    public Payment orderId(Long orderId) {
-        this.setOrderId(orderId);
-        return this;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
     }
 
     public String getPaymentMethod() {
@@ -166,7 +149,6 @@ public class Payment implements Serializable {
     public String toString() {
         return "Payment{" +
             "id=" + getId() +
-            ", orderId=" + getOrderId() +
             ", paymentMethod='" + getPaymentMethod() + "'" +
             ", transactionId='" + getTransactionId() + "'" +
             ", paymentStatus='" + getPaymentStatus() + "'" +

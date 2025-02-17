@@ -47,7 +47,7 @@ public class AddressAsserts {
     public static void assertAddressUpdatableFieldsEquals(Address expected, Address actual) {
         assertThat(actual)
             .as("Verify Address relevant properties")
-            .satisfies(a -> assertThat(a.getUserId()).as("check userId").isEqualTo(expected.getUserId()))
+            .satisfies(a -> assertThat(a.getUserId1()).as("check userId1").isEqualTo(expected.getUserId1()))
             .satisfies(a -> assertThat(a.getStreet()).as("check street").isEqualTo(expected.getStreet()))
             .satisfies(a -> assertThat(a.getCity()).as("check city").isEqualTo(expected.getCity()))
             .satisfies(a -> assertThat(a.getState()).as("check state").isEqualTo(expected.getState()))
@@ -62,8 +62,6 @@ public class AddressAsserts {
      * @param actual the actual entity
      */
     public static void assertAddressUpdatableRelationshipsEquals(Address expected, Address actual) {
-        assertThat(actual)
-            .as("Verify Address relationships")
-            .satisfies(a -> assertThat(a.getUser()).as("check user").isEqualTo(expected.getUser()));
+        // empty method
     }
 }

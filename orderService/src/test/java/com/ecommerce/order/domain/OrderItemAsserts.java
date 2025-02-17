@@ -48,7 +48,6 @@ public class OrderItemAsserts {
     public static void assertOrderItemUpdatableFieldsEquals(OrderItem expected, OrderItem actual) {
         assertThat(actual)
             .as("Verify OrderItem relevant properties")
-            .satisfies(a -> assertThat(a.getOrderId()).as("check orderId").isEqualTo(expected.getOrderId()))
             .satisfies(a -> assertThat(a.getProductId()).as("check productId").isEqualTo(expected.getProductId()))
             .satisfies(a -> assertThat(a.getQuantity()).as("check quantity").isEqualTo(expected.getQuantity()))
             .satisfies(a -> assertThat(a.getPrice()).as("check price").usingComparator(bigDecimalCompareTo).isEqualTo(expected.getPrice()));

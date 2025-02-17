@@ -47,7 +47,6 @@ public class PaymentAsserts {
     public static void assertPaymentUpdatableFieldsEquals(Payment expected, Payment actual) {
         assertThat(actual)
             .as("Verify Payment relevant properties")
-            .satisfies(a -> assertThat(a.getOrderId()).as("check orderId").isEqualTo(expected.getOrderId()))
             .satisfies(a -> assertThat(a.getPaymentMethod()).as("check paymentMethod").isEqualTo(expected.getPaymentMethod()))
             .satisfies(a -> assertThat(a.getTransactionId()).as("check transactionId").isEqualTo(expected.getTransactionId()))
             .satisfies(a -> assertThat(a.getPaymentStatus()).as("check paymentStatus").isEqualTo(expected.getPaymentStatus()))

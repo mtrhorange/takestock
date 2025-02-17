@@ -14,7 +14,7 @@ public class UserActivityDTO implements Serializable {
     private String id;
 
     @NotNull
-    private String userId;
+    private String userId1;
 
     @NotNull
     private String productId;
@@ -33,12 +33,12 @@ public class UserActivityDTO implements Serializable {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUserId1() {
+        return userId1;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserId1(String userId1) {
+        this.userId1 = userId1;
     }
 
     public String getProductId() {
@@ -91,7 +91,7 @@ public class UserActivityDTO implements Serializable {
     public String toString() {
         return "UserActivityDTO{" +
             "id='" + getId() + "'" +
-            ", userId='" + getUserId() + "'" +
+            ", userId1='" + getUserId1() + "'" +
             ", productId='" + getProductId() + "'" +
             ", action='" + getAction() + "'" +
             ", timestamp='" + getTimestamp() + "'" +

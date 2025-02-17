@@ -14,7 +14,7 @@
             <column name="id" type="bigint" autoIncrement="true" startWith="1500">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="user_id" type="bigint">
+            <column name="user_id_1" type="bigint">
                 <constraints nullable="false" />
             </column>
             <column name="total_price" type="decimal(21,2)">
@@ -51,7 +51,7 @@
                   tableName="jhi_order"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="user_id" type="numeric"/>
+            <column name="user_id_1" type="numeric"/>
             <column name="total_price" type="numeric"/>
             <column name="order_status" type="string"/>
             <column name="payment_status" type="string"/>

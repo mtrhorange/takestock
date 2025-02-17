@@ -38,8 +38,8 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class OrderResourceIT {
 
-    private static final Long DEFAULT_USER_ID = 1L;
-    private static final Long UPDATED_USER_ID = 2L;
+    private static final Long DEFAULT_USER_ID_1 = 1L;
+    private static final Long UPDATED_USER_ID_1 = 2L;
 
     private static final BigDecimal DEFAULT_TOTAL_PRICE = new BigDecimal(1);
     private static final BigDecimal UPDATED_TOTAL_PRICE = new BigDecimal(2);
@@ -86,7 +86,7 @@ class OrderResourceIT {
      */
     public static Order createEntity() {
         return new Order()
-            .userId(DEFAULT_USER_ID)
+            .userId1(DEFAULT_USER_ID_1)
             .totalPrice(DEFAULT_TOTAL_PRICE)
             .orderStatus(DEFAULT_ORDER_STATUS)
             .paymentStatus(DEFAULT_PAYMENT_STATUS)
@@ -101,7 +101,7 @@ class OrderResourceIT {
      */
     public static Order createUpdatedEntity() {
         return new Order()
-            .userId(UPDATED_USER_ID)
+            .userId1(UPDATED_USER_ID_1)
             .totalPrice(UPDATED_TOTAL_PRICE)
             .orderStatus(UPDATED_ORDER_STATUS)
             .paymentStatus(UPDATED_PAYMENT_STATUS)
@@ -165,10 +165,10 @@ class OrderResourceIT {
 
     @Test
     @Transactional
-    void checkUserIdIsRequired() throws Exception {
+    void checkUserId1IsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        order.setUserId(null);
+        order.setUserId1(null);
 
         // Create the Order, which fails.
         OrderDTO orderDTO = orderMapper.toDto(order);
@@ -260,7 +260,7 @@ class OrderResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(order.getId().intValue())))
-            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())))
+            .andExpect(jsonPath("$.[*].userId1").value(hasItem(DEFAULT_USER_ID_1.intValue())))
             .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(sameNumber(DEFAULT_TOTAL_PRICE))))
             .andExpect(jsonPath("$.[*].orderStatus").value(hasItem(DEFAULT_ORDER_STATUS)))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS)))
@@ -279,7 +279,7 @@ class OrderResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(order.getId().intValue()))
-            .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID.intValue()))
+            .andExpect(jsonPath("$.userId1").value(DEFAULT_USER_ID_1.intValue()))
             .andExpect(jsonPath("$.totalPrice").value(sameNumber(DEFAULT_TOTAL_PRICE)))
             .andExpect(jsonPath("$.orderStatus").value(DEFAULT_ORDER_STATUS))
             .andExpect(jsonPath("$.paymentStatus").value(DEFAULT_PAYMENT_STATUS))
@@ -306,7 +306,7 @@ class OrderResourceIT {
         // Disconnect from session so that the updates on updatedOrder are not directly saved in db
         em.detach(updatedOrder);
         updatedOrder
-            .userId(UPDATED_USER_ID)
+            .userId1(UPDATED_USER_ID_1)
             .totalPrice(UPDATED_TOTAL_PRICE)
             .orderStatus(UPDATED_ORDER_STATUS)
             .paymentStatus(UPDATED_PAYMENT_STATUS)
@@ -397,7 +397,7 @@ class OrderResourceIT {
         partialUpdatedOrder.setId(order.getId());
 
         partialUpdatedOrder
-            .userId(UPDATED_USER_ID)
+            .userId1(UPDATED_USER_ID_1)
             .totalPrice(UPDATED_TOTAL_PRICE)
             .paymentStatus(UPDATED_PAYMENT_STATUS)
             .createdDate(UPDATED_CREATED_DATE);
@@ -429,7 +429,7 @@ class OrderResourceIT {
         partialUpdatedOrder.setId(order.getId());
 
         partialUpdatedOrder
-            .userId(UPDATED_USER_ID)
+            .userId1(UPDATED_USER_ID_1)
             .totalPrice(UPDATED_TOTAL_PRICE)
             .orderStatus(UPDATED_ORDER_STATUS)
             .paymentStatus(UPDATED_PAYMENT_STATUS)

@@ -34,8 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class AddressResourceIT {
 
-    private static final Long DEFAULT_USER_ID = 1L;
-    private static final Long UPDATED_USER_ID = 2L;
+    private static final Long DEFAULT_USER_ID_1 = 1L;
+    private static final Long UPDATED_USER_ID_1 = 2L;
 
     private static final String DEFAULT_STREET = "AAAAAAAAAA";
     private static final String UPDATED_STREET = "BBBBBBBBBB";
@@ -85,7 +85,7 @@ class AddressResourceIT {
      */
     public static Address createEntity() {
         return new Address()
-            .userId(DEFAULT_USER_ID)
+            .userId1(DEFAULT_USER_ID_1)
             .street(DEFAULT_STREET)
             .city(DEFAULT_CITY)
             .state(DEFAULT_STATE)
@@ -101,7 +101,7 @@ class AddressResourceIT {
      */
     public static Address createUpdatedEntity() {
         return new Address()
-            .userId(UPDATED_USER_ID)
+            .userId1(UPDATED_USER_ID_1)
             .street(UPDATED_STREET)
             .city(UPDATED_CITY)
             .state(UPDATED_STATE)
@@ -166,10 +166,10 @@ class AddressResourceIT {
 
     @Test
     @Transactional
-    void checkUserIdIsRequired() throws Exception {
+    void checkUserId1IsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        address.setUserId(null);
+        address.setUserId1(null);
 
         // Create the Address, which fails.
         AddressDTO addressDTO = addressMapper.toDto(address);
@@ -278,7 +278,7 @@ class AddressResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(address.getId().intValue())))
-            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())))
+            .andExpect(jsonPath("$.[*].userId1").value(hasItem(DEFAULT_USER_ID_1.intValue())))
             .andExpect(jsonPath("$.[*].street").value(hasItem(DEFAULT_STREET)))
             .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY)))
             .andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE)))
@@ -298,7 +298,7 @@ class AddressResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(address.getId().intValue()))
-            .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID.intValue()))
+            .andExpect(jsonPath("$.userId1").value(DEFAULT_USER_ID_1.intValue()))
             .andExpect(jsonPath("$.street").value(DEFAULT_STREET))
             .andExpect(jsonPath("$.city").value(DEFAULT_CITY))
             .andExpect(jsonPath("$.state").value(DEFAULT_STATE))
@@ -326,7 +326,7 @@ class AddressResourceIT {
         // Disconnect from session so that the updates on updatedAddress are not directly saved in db
         em.detach(updatedAddress);
         updatedAddress
-            .userId(UPDATED_USER_ID)
+            .userId1(UPDATED_USER_ID_1)
             .street(UPDATED_STREET)
             .city(UPDATED_CITY)
             .state(UPDATED_STATE)
@@ -417,7 +417,7 @@ class AddressResourceIT {
         Address partialUpdatedAddress = new Address();
         partialUpdatedAddress.setId(address.getId());
 
-        partialUpdatedAddress.userId(UPDATED_USER_ID).country(UPDATED_COUNTRY).postalCode(UPDATED_POSTAL_CODE);
+        partialUpdatedAddress.userId1(UPDATED_USER_ID_1).country(UPDATED_COUNTRY).postalCode(UPDATED_POSTAL_CODE);
 
         restAddressMockMvc
             .perform(
@@ -446,7 +446,7 @@ class AddressResourceIT {
         partialUpdatedAddress.setId(address.getId());
 
         partialUpdatedAddress
-            .userId(UPDATED_USER_ID)
+            .userId1(UPDATED_USER_ID_1)
             .street(UPDATED_STREET)
             .city(UPDATED_CITY)
             .state(UPDATED_STATE)

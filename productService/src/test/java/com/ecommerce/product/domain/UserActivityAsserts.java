@@ -47,7 +47,7 @@ public class UserActivityAsserts {
     public static void assertUserActivityUpdatableFieldsEquals(UserActivity expected, UserActivity actual) {
         assertThat(actual)
             .as("Verify UserActivity relevant properties")
-            .satisfies(a -> assertThat(a.getUserId()).as("check userId").isEqualTo(expected.getUserId()))
+            .satisfies(a -> assertThat(a.getUserId1()).as("check userId1").isEqualTo(expected.getUserId1()))
             .satisfies(a -> assertThat(a.getProductId()).as("check productId").isEqualTo(expected.getProductId()))
             .satisfies(a -> assertThat(a.getAction()).as("check action").isEqualTo(expected.getAction()))
             .satisfies(a -> assertThat(a.getTimestamp()).as("check timestamp").isEqualTo(expected.getTimestamp()));

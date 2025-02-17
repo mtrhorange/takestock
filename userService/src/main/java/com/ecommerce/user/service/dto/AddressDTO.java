@@ -13,7 +13,7 @@ public class AddressDTO implements Serializable {
     private Long id;
 
     @NotNull
-    private Long userId;
+    private Long userId1;
 
     @NotNull
     private String street;
@@ -30,8 +30,6 @@ public class AddressDTO implements Serializable {
     @NotNull
     private String postalCode;
 
-    private UserDTO user;
-
     public Long getId() {
         return id;
     }
@@ -40,12 +38,12 @@ public class AddressDTO implements Serializable {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getUserId1() {
+        return userId1;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserId1(Long userId1) {
+        this.userId1 = userId1;
     }
 
     public String getStreet() {
@@ -88,14 +86,6 @@ public class AddressDTO implements Serializable {
         this.postalCode = postalCode;
     }
 
-    public UserDTO getUser() {
-        return user;
-    }
-
-    public void setUser(UserDTO user) {
-        this.user = user;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -122,13 +112,12 @@ public class AddressDTO implements Serializable {
     public String toString() {
         return "AddressDTO{" +
             "id=" + getId() +
-            ", userId=" + getUserId() +
+            ", userId1=" + getUserId1() +
             ", street='" + getStreet() + "'" +
             ", city='" + getCity() + "'" +
             ", state='" + getState() + "'" +
             ", country='" + getCountry() + "'" +
             ", postalCode='" + getPostalCode() + "'" +
-            ", user=" + getUser() +
             "}";
     }
 }

@@ -20,8 +20,8 @@ public class UserActivity implements Serializable {
     private String id;
 
     @NotNull
-    @Field("user_id")
-    private String userId;
+    @Field("user_id_1")
+    private String userId1;
 
     @NotNull
     @Field("product_id")
@@ -50,17 +50,17 @@ public class UserActivity implements Serializable {
         this.id = id;
     }
 
-    public String getUserId() {
-        return this.userId;
+    public String getUserId1() {
+        return this.userId1;
     }
 
-    public UserActivity userId(String userId) {
-        this.setUserId(userId);
+    public UserActivity userId1(String userId1) {
+        this.setUserId1(userId1);
         return this;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserId1(String userId1) {
+        this.userId1 = userId1;
     }
 
     public String getProductId() {
@@ -126,7 +126,7 @@ public class UserActivity implements Serializable {
     public String toString() {
         return "UserActivity{" +
             "id=" + getId() +
-            ", userId='" + getUserId() + "'" +
+            ", userId1='" + getUserId1() + "'" +
             ", productId='" + getProductId() + "'" +
             ", action='" + getAction() + "'" +
             ", timestamp='" + getTimestamp() + "'" +

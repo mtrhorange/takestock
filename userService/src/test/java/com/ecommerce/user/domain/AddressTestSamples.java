@@ -12,7 +12,7 @@ public class AddressTestSamples {
     public static Address getAddressSample1() {
         return new Address()
             .id(1L)
-            .userId(1L)
+            .userId1(1L)
             .street("street1")
             .city("city1")
             .state("state1")
@@ -23,7 +23,7 @@ public class AddressTestSamples {
     public static Address getAddressSample2() {
         return new Address()
             .id(2L)
-            .userId(2L)
+            .userId1(2L)
             .street("street2")
             .city("city2")
             .state("state2")
@@ -34,7 +34,7 @@ public class AddressTestSamples {
     public static Address getAddressRandomSampleGenerator() {
         return new Address()
             .id(longCount.incrementAndGet())
-            .userId(longCount.incrementAndGet())
+            .userId1(longCount.incrementAndGet())
             .street(UUID.randomUUID().toString())
             .city(UUID.randomUUID().toString())
             .state(UUID.randomUUID().toString())

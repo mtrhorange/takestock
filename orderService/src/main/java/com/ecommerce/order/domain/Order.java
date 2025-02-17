@@ -28,8 +28,8 @@ public class Order implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @Column(name = "user_id_1", nullable = false)
+    private Long userId1;
 
     @NotNull
     @Column(name = "total_price", precision = 21, scale = 2, nullable = false)
@@ -71,17 +71,17 @@ public class Order implements Serializable {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return this.userId;
+    public Long getUserId1() {
+        return this.userId1;
     }
 
-    public Order userId(Long userId) {
-        this.setUserId(userId);
+    public Order userId1(Long userId1) {
+        this.setUserId1(userId1);
         return this;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserId1(Long userId1) {
+        this.userId1 = userId1;
     }
 
     public BigDecimal getTotalPrice() {
@@ -210,7 +210,7 @@ public class Order implements Serializable {
     public String toString() {
         return "Order{" +
             "id=" + getId() +
-            ", userId=" + getUserId() +
+            ", userId1=" + getUserId1() +
             ", totalPrice=" + getTotalPrice() +
             ", orderStatus='" + getOrderStatus() + "'" +
             ", paymentStatus='" + getPaymentStatus() + "'" +

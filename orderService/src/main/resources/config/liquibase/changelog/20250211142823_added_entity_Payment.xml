@@ -14,9 +14,6 @@
             <column name="id" type="bigint" autoIncrement="true" startWith="1500">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="order_id" type="bigint">
-                <constraints nullable="false" />
-            </column>
             <column name="payment_method" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
@@ -54,7 +51,6 @@
                   tableName="payment"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="order_id" type="numeric"/>
             <column name="payment_method" type="string"/>
             <column name="transaction_id" type="string"/>
             <column name="payment_status" type="string"/>

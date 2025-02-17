@@ -14,9 +14,6 @@
             <column name="id" type="bigint" autoIncrement="true" startWith="1500">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="order_id" type="bigint">
-                <constraints nullable="false" />
-            </column>
             <column name="product_id" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
@@ -50,7 +47,6 @@
                   tableName="order_item"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="order_id" type="numeric"/>
             <column name="product_id" type="string"/>
             <column name="quantity" type="numeric"/>
             <column name="price" type="numeric"/>

@@ -36,9 +36,6 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class OrderItemResourceIT {
 
-    private static final Long DEFAULT_ORDER_ID = 1L;
-    private static final Long UPDATED_ORDER_ID = 2L;
-
     private static final String DEFAULT_PRODUCT_ID = "AAAAAAAAAA";
     private static final String UPDATED_PRODUCT_ID = "BBBBBBBBBB";
 
@@ -80,7 +77,7 @@ class OrderItemResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static OrderItem createEntity() {
-        return new OrderItem().orderId(DEFAULT_ORDER_ID).productId(DEFAULT_PRODUCT_ID).quantity(DEFAULT_QUANTITY).price(DEFAULT_PRICE);
+        return new OrderItem().productId(DEFAULT_PRODUCT_ID).quantity(DEFAULT_QUANTITY).price(DEFAULT_PRICE);
     }
 
     /**
@@ -90,7 +87,7 @@ class OrderItemResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static OrderItem createUpdatedEntity() {
-        return new OrderItem().orderId(UPDATED_ORDER_ID).productId(UPDATED_PRODUCT_ID).quantity(UPDATED_QUANTITY).price(UPDATED_PRICE);
+        return new OrderItem().productId(UPDATED_PRODUCT_ID).quantity(UPDATED_QUANTITY).price(UPDATED_PRICE);
     }
 
     @BeforeEach
@@ -146,23 +143,6 @@ class OrderItemResourceIT {
 
         // Validate the OrderItem in the database
         assertSameRepositoryCount(databaseSizeBeforeCreate);
-    }
-
-    @Test
-    @Transactional
-    void checkOrderIdIsRequired() throws Exception {
-        long databaseSizeBeforeTest = getRepositoryCount();
-        // set the field null
-        orderItem.setOrderId(null);
-
-        // Create the OrderItem, which fails.
-        OrderItemDTO orderItemDTO = orderItemMapper.toDto(orderItem);
-
-        restOrderItemMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(orderItemDTO)))
-            .andExpect(status().isBadRequest());
-
-        assertSameRepositoryCount(databaseSizeBeforeTest);
     }
 
     @Test
@@ -228,7 +208,6 @@ class OrderItemResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(orderItem.getId().intValue())))
-            .andExpect(jsonPath("$.[*].orderId").value(hasItem(DEFAULT_ORDER_ID.intValue())))
             .andExpect(jsonPath("$.[*].productId").value(hasItem(DEFAULT_PRODUCT_ID)))
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
             .andExpect(jsonPath("$.[*].price").value(hasItem(sameNumber(DEFAULT_PRICE))));
@@ -246,7 +225,6 @@ class OrderItemResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(orderItem.getId().intValue()))
-            .andExpect(jsonPath("$.orderId").value(DEFAULT_ORDER_ID.intValue()))
             .andExpect(jsonPath("$.productId").value(DEFAULT_PRODUCT_ID))
             .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY))
             .andExpect(jsonPath("$.price").value(sameNumber(DEFAULT_PRICE)));
@@ -271,7 +249,7 @@ class OrderItemResourceIT {
         OrderItem updatedOrderItem = orderItemRepository.findById(orderItem.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedOrderItem are not directly saved in db
         em.detach(updatedOrderItem);
-        updatedOrderItem.orderId(UPDATED_ORDER_ID).productId(UPDATED_PRODUCT_ID).quantity(UPDATED_QUANTITY).price(UPDATED_PRICE);
+        updatedOrderItem.productId(UPDATED_PRODUCT_ID).quantity(UPDATED_QUANTITY).price(UPDATED_PRICE);
         OrderItemDTO orderItemDTO = orderItemMapper.toDto(updatedOrderItem);
 
         restOrderItemMockMvc
@@ -361,7 +339,7 @@ class OrderItemResourceIT {
         OrderItem partialUpdatedOrderItem = new OrderItem();
         partialUpdatedOrderItem.setId(orderItem.getId());
 
-        partialUpdatedOrderItem.orderId(UPDATED_ORDER_ID).quantity(UPDATED_QUANTITY).price(UPDATED_PRICE);
+        partialUpdatedOrderItem.productId(UPDATED_PRODUCT_ID).price(UPDATED_PRICE);
 
         restOrderItemMockMvc
             .perform(
@@ -392,7 +370,7 @@ class OrderItemResourceIT {
         OrderItem partialUpdatedOrderItem = new OrderItem();
         partialUpdatedOrderItem.setId(orderItem.getId());
 
-        partialUpdatedOrderItem.orderId(UPDATED_ORDER_ID).productId(UPDATED_PRODUCT_ID).quantity(UPDATED_QUANTITY).price(UPDATED_PRICE);
+        partialUpdatedOrderItem.productId(UPDATED_PRODUCT_ID).quantity(UPDATED_QUANTITY).price(UPDATED_PRICE);
 
         restOrderItemMockMvc
             .perform(

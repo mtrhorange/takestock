@@ -1,7 +1,6 @@
 package com.ecommerce.user.domain;
 
 import static com.ecommerce.user.domain.AddressTestSamples.*;
-import static com.ecommerce.user.domain.UserTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.ecommerce.user.web.rest.TestUtil;
@@ -21,17 +20,5 @@ class AddressTest {
 
         address2 = getAddressSample2();
         assertThat(address1).isNotEqualTo(address2);
-    }
-
-    @Test
-    void userTest() {
-        Address address = getAddressRandomSampleGenerator();
-        User userBack = getUserRandomSampleGenerator();
-
-        address.setUser(userBack);
-        assertThat(address.getUser()).isEqualTo(userBack);
-
-        address.user(null);
-        assertThat(address.getUser()).isNull();
     }
 }

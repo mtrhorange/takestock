@@ -36,9 +36,6 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class PaymentResourceIT {
 
-    private static final Long DEFAULT_ORDER_ID = 1L;
-    private static final Long UPDATED_ORDER_ID = 2L;
-
     private static final String DEFAULT_PAYMENT_METHOD = "AAAAAAAAAA";
     private static final String UPDATED_PAYMENT_METHOD = "BBBBBBBBBB";
 
@@ -84,7 +81,6 @@ class PaymentResourceIT {
      */
     public static Payment createEntity() {
         return new Payment()
-            .orderId(DEFAULT_ORDER_ID)
             .paymentMethod(DEFAULT_PAYMENT_METHOD)
             .transactionId(DEFAULT_TRANSACTION_ID)
             .paymentStatus(DEFAULT_PAYMENT_STATUS)
@@ -99,7 +95,6 @@ class PaymentResourceIT {
      */
     public static Payment createUpdatedEntity() {
         return new Payment()
-            .orderId(UPDATED_ORDER_ID)
             .paymentMethod(UPDATED_PAYMENT_METHOD)
             .transactionId(UPDATED_TRANSACTION_ID)
             .paymentStatus(UPDATED_PAYMENT_STATUS)
@@ -159,23 +154,6 @@ class PaymentResourceIT {
 
         // Validate the Payment in the database
         assertSameRepositoryCount(databaseSizeBeforeCreate);
-    }
-
-    @Test
-    @Transactional
-    void checkOrderIdIsRequired() throws Exception {
-        long databaseSizeBeforeTest = getRepositoryCount();
-        // set the field null
-        payment.setOrderId(null);
-
-        // Create the Payment, which fails.
-        PaymentDTO paymentDTO = paymentMapper.toDto(payment);
-
-        restPaymentMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(paymentDTO)))
-            .andExpect(status().isBadRequest());
-
-        assertSameRepositoryCount(databaseSizeBeforeTest);
     }
 
     @Test
@@ -258,7 +236,6 @@ class PaymentResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(payment.getId().intValue())))
-            .andExpect(jsonPath("$.[*].orderId").value(hasItem(DEFAULT_ORDER_ID.intValue())))
             .andExpect(jsonPath("$.[*].paymentMethod").value(hasItem(DEFAULT_PAYMENT_METHOD)))
             .andExpect(jsonPath("$.[*].transactionId").value(hasItem(DEFAULT_TRANSACTION_ID)))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS)))
@@ -277,7 +254,6 @@ class PaymentResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(payment.getId().intValue()))
-            .andExpect(jsonPath("$.orderId").value(DEFAULT_ORDER_ID.intValue()))
             .andExpect(jsonPath("$.paymentMethod").value(DEFAULT_PAYMENT_METHOD))
             .andExpect(jsonPath("$.transactionId").value(DEFAULT_TRANSACTION_ID))
             .andExpect(jsonPath("$.paymentStatus").value(DEFAULT_PAYMENT_STATUS))
@@ -304,7 +280,6 @@ class PaymentResourceIT {
         // Disconnect from session so that the updates on updatedPayment are not directly saved in db
         em.detach(updatedPayment);
         updatedPayment
-            .orderId(UPDATED_ORDER_ID)
             .paymentMethod(UPDATED_PAYMENT_METHOD)
             .transactionId(UPDATED_TRANSACTION_ID)
             .paymentStatus(UPDATED_PAYMENT_STATUS)
@@ -394,7 +369,7 @@ class PaymentResourceIT {
         Payment partialUpdatedPayment = new Payment();
         partialUpdatedPayment.setId(payment.getId());
 
-        partialUpdatedPayment.orderId(UPDATED_ORDER_ID).paymentStatus(UPDATED_PAYMENT_STATUS).paymentDate(UPDATED_PAYMENT_DATE);
+        partialUpdatedPayment.paymentMethod(UPDATED_PAYMENT_METHOD).paymentDate(UPDATED_PAYMENT_DATE);
 
         restPaymentMockMvc
             .perform(
@@ -423,7 +398,6 @@ class PaymentResourceIT {
         partialUpdatedPayment.setId(payment.getId());
 
         partialUpdatedPayment
-            .orderId(UPDATED_ORDER_ID)
             .paymentMethod(UPDATED_PAYMENT_METHOD)
             .transactionId(UPDATED_TRANSACTION_ID)
             .paymentStatus(UPDATED_PAYMENT_STATUS)

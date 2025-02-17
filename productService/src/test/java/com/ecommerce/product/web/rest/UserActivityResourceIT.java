@@ -33,8 +33,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @WithMockUser
 class UserActivityResourceIT {
 
-    private static final String DEFAULT_USER_ID = "AAAAAAAAAA";
-    private static final String UPDATED_USER_ID = "BBBBBBBBBB";
+    private static final String DEFAULT_USER_ID_1 = "AAAAAAAAAA";
+    private static final String UPDATED_USER_ID_1 = "BBBBBBBBBB";
 
     private static final String DEFAULT_PRODUCT_ID = "AAAAAAAAAA";
     private static final String UPDATED_PRODUCT_ID = "BBBBBBBBBB";
@@ -71,7 +71,11 @@ class UserActivityResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static UserActivity createEntity() {
-        return new UserActivity().userId(DEFAULT_USER_ID).productId(DEFAULT_PRODUCT_ID).action(DEFAULT_ACTION).timestamp(DEFAULT_TIMESTAMP);
+        return new UserActivity()
+            .userId1(DEFAULT_USER_ID_1)
+            .productId(DEFAULT_PRODUCT_ID)
+            .action(DEFAULT_ACTION)
+            .timestamp(DEFAULT_TIMESTAMP);
     }
 
     /**
@@ -81,7 +85,11 @@ class UserActivityResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static UserActivity createUpdatedEntity() {
-        return new UserActivity().userId(UPDATED_USER_ID).productId(UPDATED_PRODUCT_ID).action(UPDATED_ACTION).timestamp(UPDATED_TIMESTAMP);
+        return new UserActivity()
+            .userId1(UPDATED_USER_ID_1)
+            .productId(UPDATED_PRODUCT_ID)
+            .action(UPDATED_ACTION)
+            .timestamp(UPDATED_TIMESTAMP);
     }
 
     @BeforeEach
@@ -138,10 +146,10 @@ class UserActivityResourceIT {
     }
 
     @Test
-    void checkUserIdIsRequired() throws Exception {
+    void checkUserId1IsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        userActivity.setUserId(null);
+        userActivity.setUserId1(null);
 
         // Create the UserActivity, which fails.
         UserActivityDTO userActivityDTO = userActivityMapper.toDto(userActivity);
@@ -212,7 +220,7 @@ class UserActivityResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(userActivity.getId())))
-            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID)))
+            .andExpect(jsonPath("$.[*].userId1").value(hasItem(DEFAULT_USER_ID_1)))
             .andExpect(jsonPath("$.[*].productId").value(hasItem(DEFAULT_PRODUCT_ID)))
             .andExpect(jsonPath("$.[*].action").value(hasItem(DEFAULT_ACTION)))
             .andExpect(jsonPath("$.[*].timestamp").value(hasItem(DEFAULT_TIMESTAMP.toString())));
@@ -229,7 +237,7 @@ class UserActivityResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(userActivity.getId()))
-            .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID))
+            .andExpect(jsonPath("$.userId1").value(DEFAULT_USER_ID_1))
             .andExpect(jsonPath("$.productId").value(DEFAULT_PRODUCT_ID))
             .andExpect(jsonPath("$.action").value(DEFAULT_ACTION))
             .andExpect(jsonPath("$.timestamp").value(DEFAULT_TIMESTAMP.toString()));
@@ -250,7 +258,7 @@ class UserActivityResourceIT {
 
         // Update the userActivity
         UserActivity updatedUserActivity = userActivityRepository.findById(userActivity.getId()).orElseThrow();
-        updatedUserActivity.userId(UPDATED_USER_ID).productId(UPDATED_PRODUCT_ID).action(UPDATED_ACTION).timestamp(UPDATED_TIMESTAMP);
+        updatedUserActivity.userId1(UPDATED_USER_ID_1).productId(UPDATED_PRODUCT_ID).action(UPDATED_ACTION).timestamp(UPDATED_TIMESTAMP);
         UserActivityDTO userActivityDTO = userActivityMapper.toDto(updatedUserActivity);
 
         restUserActivityMockMvc
@@ -337,7 +345,7 @@ class UserActivityResourceIT {
         partialUpdatedUserActivity.setId(userActivity.getId());
 
         partialUpdatedUserActivity
-            .userId(UPDATED_USER_ID)
+            .userId1(UPDATED_USER_ID_1)
             .productId(UPDATED_PRODUCT_ID)
             .action(UPDATED_ACTION)
             .timestamp(UPDATED_TIMESTAMP);
@@ -371,7 +379,7 @@ class UserActivityResourceIT {
         partialUpdatedUserActivity.setId(userActivity.getId());
 
         partialUpdatedUserActivity
-            .userId(UPDATED_USER_ID)
+            .userId1(UPDATED_USER_ID_1)
             .productId(UPDATED_PRODUCT_ID)
             .action(UPDATED_ACTION)
             .timestamp(UPDATED_TIMESTAMP);

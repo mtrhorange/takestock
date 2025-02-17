@@ -15,7 +15,7 @@ public class OrderDTO implements Serializable {
     private Long id;
 
     @NotNull
-    private Long userId;
+    private Long userId1;
 
     @NotNull
     private BigDecimal totalPrice;
@@ -37,12 +37,12 @@ public class OrderDTO implements Serializable {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getUserId1() {
+        return userId1;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserId1(Long userId1) {
+        this.userId1 = userId1;
     }
 
     public BigDecimal getTotalPrice() {
@@ -103,7 +103,7 @@ public class OrderDTO implements Serializable {
     public String toString() {
         return "OrderDTO{" +
             "id=" + getId() +
-            ", userId=" + getUserId() +
+            ", userId1=" + getUserId1() +
             ", totalPrice=" + getTotalPrice() +
             ", orderStatus='" + getOrderStatus() + "'" +
             ", paymentStatus='" + getPaymentStatus() + "'" +

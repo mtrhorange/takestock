@@ -23,8 +23,8 @@ public class Address implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @Column(name = "user_id_1", nullable = false)
+    private Long userId1;
 
     @NotNull
     @Column(name = "street", nullable = false)
@@ -46,9 +46,6 @@ public class Address implements Serializable {
     @Column(name = "postal_code", nullable = false)
     private String postalCode;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
-
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -64,17 +61,17 @@ public class Address implements Serializable {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return this.userId;
+    public Long getUserId1() {
+        return this.userId1;
     }
 
-    public Address userId(Long userId) {
-        this.setUserId(userId);
+    public Address userId1(Long userId1) {
+        this.setUserId1(userId1);
         return this;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserId1(Long userId1) {
+        this.userId1 = userId1;
     }
 
     public String getStreet() {
@@ -142,19 +139,6 @@ public class Address implements Serializable {
         this.postalCode = postalCode;
     }
 
-    public User getUser() {
-        return this.user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Address user(User user) {
-        this.setUser(user);
-        return this;
-    }
-
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -179,7 +163,7 @@ public class Address implements Serializable {
     public String toString() {
         return "Address{" +
             "id=" + getId() +
-            ", userId=" + getUserId() +
+            ", userId1=" + getUserId1() +
             ", street='" + getStreet() + "'" +
             ", city='" + getCity() + "'" +
             ", state='" + getState() + "'" +
