@@ -1,61 +1,94 @@
 package com.ecommerce.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ecommerce.user.config.Constants;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-/**
- * A User.
- */
 @Entity
-@Table(name = "user")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@SuppressWarnings("common-java:DuplicatedBlocks")
-public class User implements Serializable {
+@Table(name = "jhi_user")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+public class User extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @NotNull
-    @Column(name = "login", nullable = false, unique = true)
+    @Pattern(regexp = Constants.LOGIN_REGEX)
+    @Size(min = 1, max = 50)
+    @Column(length = 50, unique = true, nullable = false)
     private String login;
 
+    @JsonIgnore
     @NotNull
-    @Column(name = "email", nullable = false, unique = true)
+    @Size(min = 60, max = 60)
+    @Column(name = "password_hash", length = 60, nullable = false)
+    private String password;
+
+    @Size(max = 50)
+    @Column(name = "first_name", length = 50)
+    private String firstName;
+
+    @Size(max = 50)
+    @Column(name = "last_name", length = 50)
+    private String lastName;
+
+    @Email
+    @Size(min = 5, max = 254)
+    @Column(length = 254, unique = true)
     private String email;
 
     @NotNull
-    @Column(name = "password_hash", nullable = false)
-    private String passwordHash;
+    @Column(nullable = false)
+    private boolean activated = false;
 
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
-
-    @NotNull
-    @Column(name = "activated", nullable = false)
-    private Boolean activated;
-
-    @Column(name = "lang_key")
+    @Size(min = 2, max = 10)
+    @Column(name = "lang_key", length = 10)
     private String langKey;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here
+    @Size(max = 256)
+    @Column(name = "image_url", length = 256)
+    private String imageUrl;
+
+    @Size(max = 20)
+    @Column(name = "activation_key", length = 20)
+    @JsonIgnore
+    private String activationKey;
+
+    @Size(max = 20)
+    @Column(name = "reset_key", length = 20)
+    @JsonIgnore
+    private String resetKey;
+
+    @Column(name = "reset_date")
+    private Instant resetDate = null;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+        name = "jhi_user_authority",
+        joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") },
+        inverseJoinColumns = { @JoinColumn(name = "authority_name", referencedColumnName = "name") }
+    )
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @BatchSize(size = 20)
+    private Set<Authority> authorities = new HashSet<>();
 
     public Long getId() {
-        return this.id;
-    }
-
-    public User id(Long id) {
-        this.setId(id);
-        return this;
+        return id;
     }
 
     public void setId(Long id) {
@@ -63,51 +96,24 @@ public class User implements Serializable {
     }
 
     public String getLogin() {
-        return this.login;
+        return login;
     }
 
-    public User login(String login) {
-        this.setLogin(login);
-        return this;
-    }
-
+    // Lowercase the login before saving it in database
     public void setLogin(String login) {
-        this.login = login;
+        this.login = StringUtils.lowerCase(login, Locale.ENGLISH);
     }
 
-    public String getEmail() {
-        return this.email;
+    public String getPassword() {
+        return password;
     }
 
-    public User email(String email) {
-        this.setEmail(email);
-        return this;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPasswordHash() {
-        return this.passwordHash;
-    }
-
-    public User passwordHash(String passwordHash) {
-        this.setPasswordHash(passwordHash);
-        return this;
-    }
-
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {
-        return this.firstName;
-    }
-
-    public User firstName(String firstName) {
-        this.setFirstName(firstName);
-        return this;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
@@ -115,45 +121,76 @@ public class User implements Serializable {
     }
 
     public String getLastName() {
-        return this.lastName;
-    }
-
-    public User lastName(String lastName) {
-        this.setLastName(lastName);
-        return this;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public Boolean getActivated() {
-        return this.activated;
+    public String getEmail() {
+        return email;
     }
 
-    public User activated(Boolean activated) {
-        this.setActivated(activated);
-        return this;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setActivated(Boolean activated) {
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
         this.activated = activated;
     }
 
-    public String getLangKey() {
-        return this.langKey;
+    public String getActivationKey() {
+        return activationKey;
     }
 
-    public User langKey(String langKey) {
-        this.setLangKey(langKey);
-        return this;
+    public void setActivationKey(String activationKey) {
+        this.activationKey = activationKey;
+    }
+
+    public String getResetKey() {
+        return resetKey;
+    }
+
+    public void setResetKey(String resetKey) {
+        this.resetKey = resetKey;
+    }
+
+    public Instant getResetDate() {
+        return resetDate;
+    }
+
+    public void setResetDate(Instant resetDate) {
+        this.resetDate = resetDate;
+    }
+
+    public String getLangKey() {
+        return langKey;
     }
 
     public void setLangKey(String langKey) {
         this.langKey = langKey;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -163,7 +200,7 @@ public class User implements Serializable {
         if (!(o instanceof User)) {
             return false;
         }
-        return getId() != null && getId().equals(((User) o).getId());
+        return id != null && id.equals(((User) o).id);
     }
 
     @Override
@@ -176,14 +213,14 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-            "id=" + getId() +
-            ", login='" + getLogin() + "'" +
-            ", email='" + getEmail() + "'" +
-            ", passwordHash='" + getPasswordHash() + "'" +
-            ", firstName='" + getFirstName() + "'" +
-            ", lastName='" + getLastName() + "'" +
-            ", activated='" + getActivated() + "'" +
-            ", langKey='" + getLangKey() + "'" +
+            "login='" + login + '\'' +
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", email='" + email + '\'' +
+            ", imageUrl='" + imageUrl + '\'' +
+            ", activated='" + activated + '\'' +
+            ", langKey='" + langKey + '\'' +
+            ", activationKey='" + activationKey + '\'' +
             "}";
     }
 }
