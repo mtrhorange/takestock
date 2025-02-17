@@ -140,10 +140,6 @@ Desktop.ini
 # Maven Wrapper
 ######################
 !.mvn/wrapper/maven-wrapper.jar
-gateway/mvnw
-userService/mvnw
-orderService/mvnw
-productService/mvnw
 
 ######################
 # ESLint
