@@ -99,7 +99,7 @@ describe('Notification Middleware', () => {
       response: {
         data: '',
         config: {
-          url: 'api/authenticate',
+          url: 'services/userService/api/authenticate',
         },
         status: 401,
       },

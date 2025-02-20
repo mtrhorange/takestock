@@ -46,7 +46,10 @@ export default () => next => action => {
       const { response } = error;
       if (response.status === 401) {
         // Ignore, page will be redirected to login.
-      } else if (error.config?.url?.endsWith('api/account') || error.config?.url?.endsWith('api/authenticate')) {
+      } else if (
+        error.config?.url?.endsWith('services/userService/api/account') ||
+        error.config?.url?.endsWith('services/userService/api/authenticate')
+      ) {
         // Ignore, authentication status check and authentication are treated differently.
       } else if (response.status === 0) {
         // connection refused, server not reachable
@@ -78,7 +81,7 @@ export default () => next => action => {
           }
         }
       }
-    } else if (error.config?.url?.endsWith('api/account') && error.config?.method === 'get') {
+    } else if (error.config?.url?.endsWith('services/userService/api/account') && error.config?.method === 'get') {
       /* eslint-disable no-console */
       console.log('Authentication Error: Trying to access url api/account with GET.');
     } else {

@@ -129,21 +129,13 @@ spring:
     name: gateway
   cloud:
     gateway:
-      default-filters:
-        - JWTRelay
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
+      routes:
+        - id: userService
+          uri: http://localhost:8082/
           predicates:
-            - name: Path
-              args:
-                pattern: "'/services/'+serviceId.toLowerCase()+'/**'"
+            - Path=/services/userService/**
           filters:
             - StripPrefix=2
-      httpclient:
-        pool:
-          max-connections: 1000
   docker:
     compose:
       enabled: true
