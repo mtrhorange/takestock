@@ -63,8 +63,8 @@ spring:
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker
-    enabled: false
-
+    enabled: true
+    uri: mongodb://localhost:27017/productService
 server:
   port: 8081
   # make sure requests the proxy uri instead of the server one
