@@ -15,8 +15,8 @@ const initialState = {
   totalItems: 0,
 };
 
-const apiUrl = 'api/users';
-const adminUrl = 'api/admin/users';
+const apiUrl = 'services/userService/api/users';
+const adminUrl = 'services/userService/api/admin/users';
 
 // Async Actions
 
@@ -31,7 +31,7 @@ export const getUsersAsAdmin = createAsyncThunk('userManagement/fetch_users_as_a
 });
 
 export const getRoles = createAsyncThunk('userManagement/fetch_roles', async () => {
-  const response = await axios.get<any[]>(`api/authorities`);
+  const response = await axios.get<any[]>(`services/userService/api/authorities`);
   response.data = response?.data?.map(authority => authority.name);
   return response;
 });
