@@ -130,10 +130,22 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: productService
+          uri: http://localhost:8081/
+          predicates:
+            - Path=/services/productService/**
+          filters:
+            - StripPrefix=2
         - id: userService
           uri: http://localhost:8082/
           predicates:
             - Path=/services/userService/**
+          filters:
+            - StripPrefix=2
+        - id: orderService
+          uri: http://localhost:8083/
+          predicates:
+            - Path=/services/orderService/**
           filters:
             - StripPrefix=2
   docker:
