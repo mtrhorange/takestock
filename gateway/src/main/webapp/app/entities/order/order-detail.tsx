@@ -33,6 +33,12 @@ export const OrderDetail = () => {
           </dt>
           <dd>{orderEntity.id}</dd>
           <dt>
+            <span id="userId1">
+              <Translate contentKey="gatewayApp.order.userId1">User ID</Translate>
+            </span>
+          </dt>
+          <dd>{orderEntity.userId1}</dd>
+          <dt>
             <span id="totalPrice">
               <Translate contentKey="gatewayApp.order.totalPrice">Total Price</Translate>
             </span>

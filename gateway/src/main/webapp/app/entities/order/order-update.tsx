@@ -97,6 +97,17 @@ export const OrderUpdate = () => {
                 />
               ) : null}
               <ValidatedField
+                name="userId1"
+                id="user-id1"
+                label={translate('gatewayApp.order.userId1')}
+                data-cy="userId1"
+                type="text"
+                validate={{
+                  required: { value: true, message: translate('entity.validation.required') },
+                  validate: v => isNumber(v) || translate('entity.validation.number'),
+                }}
+              />
+              <ValidatedField
                 label={translate('gatewayApp.order.totalPrice')}
                 id="order-totalPrice"
                 name="totalPrice"

@@ -18,6 +18,7 @@
         "title": "Order"
       },
       "id": "ID",
+      "userId1": "User ID",
       "totalPrice": "Total Price",
       "orderStatus": "Order Status",
       "paymentStatus": "Payment Status",

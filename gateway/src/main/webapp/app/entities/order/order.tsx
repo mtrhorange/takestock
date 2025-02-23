@@ -113,6 +113,10 @@ export const Order = () => {
                 <th className="hand" onClick={sort('id')}>
                   <Translate contentKey="gatewayApp.order.id">ID</Translate> <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
+                <th className="hand" onClick={sort('userId1')}>
+                  <Translate contentKey="gatewayApp.order.userId1">User ID</Translate>{' '}
+                  <FontAwesomeIcon icon={getSortIconByFieldName('userId1')} />
+                </th>
                 <th className="hand" onClick={sort('totalPrice')}>
                   <Translate contentKey="gatewayApp.order.totalPrice">Total Price</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('totalPrice')} />
@@ -140,6 +144,7 @@ export const Order = () => {
                       {order.id}
                     </Button>
                   </td>
+                  <td>{order.userId1}</td>
                   <td>{order.totalPrice}</td>
                   <td>{order.orderStatus}</td>
                   <td>{order.paymentStatus}</td>
