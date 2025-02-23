@@ -24,28 +24,24 @@ public class DepartmentController {
     @Autowired
     private EmployeeClient employeeClient;
 
-    @CrossOrigin(origins = "*")
     @PostMapping
     public Department add(@RequestBody Department department) {
         LOGGER.info("Department add: {}", department);
         return repository.addDepartment(department);
     }
 
-    @CrossOrigin(origins = "*")
     @GetMapping
     public List<Department> findAll() {
         LOGGER.info("Department find");
         return repository.findAll();
     }
 
-    @CrossOrigin(origins = "*")
     @GetMapping("/{id}")
     public Department findById(@PathVariable Long id) {
         LOGGER.info("Department find: id={}", id);
         return repository.findById(id);
     }
 
-    @CrossOrigin(origins = "*")
     @GetMapping("/with-employees")
     public List<Department> findAllWithEmployees() {
         LOGGER.info("Department find");

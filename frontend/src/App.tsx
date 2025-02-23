@@ -16,17 +16,17 @@ function App() {
   const [depName, setDepName] = useState("");
 
   const addDepartment = async () => {
-    // fetch('http://localhost:8060/department', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify({
-    //       "id":depId,
-    //       "name":depName
-    //     })
-    // })
+    fetch('http://localhost:8060/department', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          "id":depId,
+          "name":depName
+        })
+    })
     // fetch('http://localhost:8060/department', {
     //   method: 'GET',
     //   headers: {
@@ -34,7 +34,7 @@ function App() {
     //     'Content-Type': 'application/json'
     //   }}
     // )
-    const res = await axios.get("http://localhost:8060/department")
+    // const res = await axios.get("http://localhost:8060/department")
   }
 
   return (
