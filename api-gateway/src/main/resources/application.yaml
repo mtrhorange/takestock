@@ -40,3 +40,15 @@ spring:
           uri: lb://department-service
           predicates:
             - Path=/department/**
+        - id: orderService
+          uri: lb://orderService
+          predicates:
+            - Path=/api/order-items/**,/api/orders/**
+        - id: productService
+          uri: lb://productService
+          predicates:
+            - Path=/product/**
+        - id: userService
+          uri: lb://userService
+          predicates:
+            - Path=/user/**

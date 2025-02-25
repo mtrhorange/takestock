@@ -2,7 +2,6 @@ package com.ecommerce.order.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -27,24 +26,19 @@ public class Order implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @NotNull
     @Column(name = "user_id_1", nullable = false)
     private Long userId1;
 
-    @NotNull
     @Column(name = "total_price", precision = 21, scale = 2, nullable = false)
     private BigDecimal totalPrice;
 
-    @NotNull
     @Column(name = "order_status", nullable = false)
     private String orderStatus;
 
-    @NotNull
     @Column(name = "payment_status", nullable = false)
     private String paymentStatus;
 
-    @NotNull
-    @Column(name = "created_date", nullable = false)
+    @Column(name = "created_date")
     private Instant createdDate;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")

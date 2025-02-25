@@ -3,26 +3,22 @@ package com.ecommerce.order.web.rest;
 import com.ecommerce.order.repository.OrderItemRepository;
 import com.ecommerce.order.service.OrderItemService;
 import com.ecommerce.order.service.dto.OrderItemDTO;
-import com.ecommerce.order.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import jakarta.ws.rs.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
-import tech.jhipster.web.util.ResponseUtil;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * REST controller for managing {@link com.ecommerce.order.domain.OrderItem}.
@@ -35,8 +31,8 @@ public class OrderItemResource {
 
     private static final String ENTITY_NAME = "orderServiceOrderItem";
 
-    @Value("${jhipster.clientApp.name}")
-    private String applicationName;
+    // @Value("${jhipster.clientApp.name}")
+    private String applicationName = "app";
 
     private final OrderItemService orderItemService;
 
@@ -58,11 +54,11 @@ public class OrderItemResource {
     public ResponseEntity<OrderItemDTO> createOrderItem(@Valid @RequestBody OrderItemDTO orderItemDTO) throws URISyntaxException {
         LOG.debug("REST request to save OrderItem : {}", orderItemDTO);
         if (orderItemDTO.getId() != null) {
-            throw new BadRequestAlertException("A new orderItem cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BadRequestException("A new orderItem cannot already have an ID");
         }
         orderItemDTO = orderItemService.save(orderItemDTO);
         return ResponseEntity.created(new URI("/api/order-items/" + orderItemDTO.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, orderItemDTO.getId().toString()))
+//            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, orderItemDTO.getId().toString()))
             .body(orderItemDTO);
     }
 
@@ -83,19 +79,19 @@ public class OrderItemResource {
     ) throws URISyntaxException {
         LOG.debug("REST request to update OrderItem : {}, {}", id, orderItemDTO);
         if (orderItemDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BadRequestException("Invalid id");
         }
         if (!Objects.equals(id, orderItemDTO.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BadRequestException("Invalid ID");
         }
 
         if (!orderItemRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BadRequestException("Entity not found");
         }
 
         orderItemDTO = orderItemService.update(orderItemDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, orderItemDTO.getId().toString()))
+//            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, orderItemDTO.getId().toString()))
             .body(orderItemDTO);
     }
 
@@ -117,22 +113,22 @@ public class OrderItemResource {
     ) throws URISyntaxException {
         LOG.debug("REST request to partial update OrderItem partially : {}, {}", id, orderItemDTO);
         if (orderItemDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BadRequestException("Invalid id");
         }
         if (!Objects.equals(id, orderItemDTO.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BadRequestException("Invalid ID");
         }
 
         if (!orderItemRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BadRequestException("Entity not found");
         }
 
-        Optional<OrderItemDTO> result = orderItemService.partialUpdate(orderItemDTO);
-
-        return ResponseUtil.wrapOrNotFound(
-            result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, orderItemDTO.getId().toString())
-        );
+//        Optional<OrderItemDTO> result = orderItemService.partialUpdate(orderItemDTO);
+        return null;
+//        return ResponseUtil.wrapOrNotFound(
+//            result,
+//            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, orderItemDTO.getId().toString())
+//        );
     }
 
     /**
@@ -142,11 +138,11 @@ public class OrderItemResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of orderItems in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<OrderItemDTO>> getAllOrderItems(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<OrderItemDTO>> getAllOrderItems(Pageable pageable) {
         LOG.debug("REST request to get a page of OrderItems");
         Page<OrderItemDTO> page = orderItemService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+//        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok(page.getContent());
     }
 
     /**
@@ -159,7 +155,7 @@ public class OrderItemResource {
     public ResponseEntity<OrderItemDTO> getOrderItem(@PathVariable("id") Long id) {
         LOG.debug("REST request to get OrderItem : {}", id);
         Optional<OrderItemDTO> orderItemDTO = orderItemService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(orderItemDTO);
+        return ResponseEntity.ok(orderItemDTO.orElseThrow());
     }
 
     /**
@@ -172,8 +168,6 @@ public class OrderItemResource {
     public ResponseEntity<Void> deleteOrderItem(@PathVariable("id") Long id) {
         LOG.debug("REST request to delete OrderItem : {}", id);
         orderItemService.delete(id);
-        return ResponseEntity.noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
-            .build();
+        return ResponseEntity.ok().build();
     }
 }

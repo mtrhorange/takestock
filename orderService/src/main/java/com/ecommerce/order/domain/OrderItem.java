@@ -2,7 +2,6 @@ package com.ecommerce.order.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import org.hibernate.annotations.Cache;
@@ -24,15 +23,12 @@ public class OrderItem implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @NotNull
     @Column(name = "product_id", nullable = false)
     private String productId;
 
-    @NotNull
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @NotNull
     @Column(name = "price", precision = 21, scale = 2, nullable = false)
     private BigDecimal price;
 
@@ -40,7 +36,16 @@ public class OrderItem implements Serializable {
     @JsonIgnoreProperties(value = { "orderItems", "payment" }, allowSetters = true)
     private Order order;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here
+    public OrderItem() {
+    }
+
+    public OrderItem(Long id, String productId, Integer quantity, BigDecimal price, Order order) {
+        this.id = id;
+        this.productId = productId;
+        this.quantity = quantity;
+        this.price = price;
+        this.order = order;
+    }
 
     public Long getId() {
         return this.id;

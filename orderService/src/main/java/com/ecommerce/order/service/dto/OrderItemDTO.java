@@ -1,6 +1,5 @@
 package com.ecommerce.order.service.dto;
 
-import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -13,16 +12,24 @@ public class OrderItemDTO implements Serializable {
 
     private Long id;
 
-    @NotNull
     private String productId;
 
-    @NotNull
     private Integer quantity;
 
-    @NotNull
     private BigDecimal price;
 
     private OrderDTO order;
+
+    public OrderItemDTO() {
+    }
+
+    public OrderItemDTO(Long id, String productId, Integer quantity, BigDecimal price, OrderDTO order) {
+        this.id = id;
+        this.productId = productId;
+        this.quantity = quantity;
+        this.price = price;
+        this.order = order;
+    }
 
     public Long getId() {
         return id;

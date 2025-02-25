@@ -1,6 +1,5 @@
 package com.ecommerce.order.service.dto;
 
-import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -14,19 +13,14 @@ public class OrderDTO implements Serializable {
 
     private Long id;
 
-    @NotNull
     private Long userId1;
 
-    @NotNull
     private BigDecimal totalPrice;
 
-    @NotNull
     private String orderStatus;
 
-    @NotNull
     private String paymentStatus;
 
-    @NotNull
     private Instant createdDate;
 
     public Long getId() {

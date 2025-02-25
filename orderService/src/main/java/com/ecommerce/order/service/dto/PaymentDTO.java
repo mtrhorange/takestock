@@ -1,6 +1,5 @@
 package com.ecommerce.order.service.dto;
 
-import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
@@ -13,16 +12,12 @@ public class PaymentDTO implements Serializable {
 
     private Long id;
 
-    @NotNull
     private String paymentMethod;
 
-    @NotNull
     private String transactionId;
 
-    @NotNull
     private String paymentStatus;
 
-    @NotNull
     private Instant paymentDate;
 
     private OrderDTO order;

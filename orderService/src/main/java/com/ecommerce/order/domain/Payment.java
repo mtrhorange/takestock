@@ -2,7 +2,6 @@ package com.ecommerce.order.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
 import org.hibernate.annotations.Cache;
@@ -24,19 +23,15 @@ public class Payment implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @NotNull
     @Column(name = "payment_method", nullable = false)
     private String paymentMethod;
 
-    @NotNull
     @Column(name = "transaction_id", nullable = false)
     private String transactionId;
 
-    @NotNull
     @Column(name = "payment_status", nullable = false)
     private String paymentStatus;
 
-    @NotNull
     @Column(name = "payment_date", nullable = false)
     private Instant paymentDate;
 
@@ -44,8 +39,6 @@ public class Payment implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
     private Order order;
-
-    // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
         return this.id;

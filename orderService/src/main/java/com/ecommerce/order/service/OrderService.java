@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
+    @Autowired
     private final OrderMapper orderMapper;
 
     public OrderService(OrderRepository orderRepository, OrderMapper orderMapper) {
@@ -68,7 +70,6 @@ public class OrderService {
      */
     public Optional<OrderDTO> partialUpdate(OrderDTO orderDTO) {
         LOG.debug("Request to partially update Order : {}", orderDTO);
-
         return orderRepository
             .findById(orderDTO.getId())
             .map(existingOrder -> {
