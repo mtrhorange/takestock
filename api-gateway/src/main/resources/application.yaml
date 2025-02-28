@@ -22,7 +22,7 @@ spring:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
       globalcors:
         corsConfigurations:
-          '[/**]':
+          "[/**]":
             allowedOrigins: "*"
             allowedHeaders: "*"
             allowedMethods:
@@ -51,4 +51,4 @@ spring:
         - id: userService
           uri: lb://userService
           predicates:
-            - Path=/user/**
+            - Path=/api/authenticate/**,/api/authorities/**,/api/account/**,/api/register/**,/api/addresses/**,/api/admin/**

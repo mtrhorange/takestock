@@ -1,0 +1,49 @@
+server:
+  port: 8083
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/userService?useUnicode=true&characterEncoding=utf8&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+    username: root
+    password:
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate.jdbc.time_zone: UTC
+      hibernate.timezone.default_storage: NORMALIZE
+      hibernate.type.preferred_instant_jdbc_type: TIMESTAMP
+      hibernate.id.new_generator_mappings: true
+      hibernate.connection.provider_disables_autocommit: false
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      hibernate.generate_statistics: false
+      hibernate.jdbc.batch_size: 25
+      hibernate.order_inserts: true
+      hibernate.order_updates: true
+      hibernate.query.fail_on_pagination_over_collection_fetch: true
+      hibernate.query.in_clause_parameter_padding: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+  hikari:
+    maximum-pool-size: 10
+    minimum-idle: 2
+
+jhipster:
+  security:
+    authentication:
+      jwt:
+        base64-secret: MzhiYzAzMDA3MzdlMjE5NzIwYTY3NWFlNDEwM2NkY2IxOTc5Mzc4ZmM3NTVlYmVkMTJkOTYzZjUzOTRiNzlmOTU3MzgxNGJiNjA4OWZlYzBhZGQzMDRlOGVkMGY4MDAyNGM5MWI5ODk0NzZmNDgzNjA0OWY1NzZhYjA3MjcyZTA=
+        # Token is valid 24 hours
+        token-validity-in-seconds: 86400
+        token-validity-in-seconds-for-remember-me: 2592000
