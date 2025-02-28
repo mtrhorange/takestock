@@ -1,7 +1,7 @@
 package com.ecommerce.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ecommerce.user.config.Constants;
+import com.ecommerce.user.common.Constants;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;

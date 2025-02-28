@@ -1,6 +1,6 @@
 package com.ecommerce.user.service.dto;
 
-import com.ecommerce.user.config.Constants;
+import com.ecommerce.user.common.Constants;
 import com.ecommerce.user.domain.Authority;
 import com.ecommerce.user.domain.User;
 import jakarta.validation.constraints.Email;

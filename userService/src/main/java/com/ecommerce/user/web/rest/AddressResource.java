@@ -3,7 +3,6 @@ package com.ecommerce.user.web.rest;
 import com.ecommerce.user.repository.AddressRepository;
 import com.ecommerce.user.service.AddressService;
 import com.ecommerce.user.service.dto.AddressDTO;
-import com.ecommerce.user.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
@@ -11,13 +10,12 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import jakarta.ws.rs.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing {@link com.ecommerce.user.domain.Address}.
@@ -30,8 +28,7 @@ public class AddressResource {
 
     private static final String ENTITY_NAME = "userServiceAddress";
 
-    @Value("${jhipster.clientApp.name}")
-    private String applicationName;
+    private String applicationName = "userService";
 
     private final AddressService addressService;
 
@@ -53,11 +50,11 @@ public class AddressResource {
     public ResponseEntity<AddressDTO> createAddress(@Valid @RequestBody AddressDTO addressDTO) throws URISyntaxException {
         LOG.debug("REST request to save Address : {}", addressDTO);
         if (addressDTO.getId() != null) {
-            throw new BadRequestAlertException("A new address cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BadRequestException("A new address cannot already have an ID");
         }
         addressDTO = addressService.save(addressDTO);
         return ResponseEntity.created(new URI("/api/addresses/" + addressDTO.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, addressDTO.getId().toString()))
+//            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, addressDTO.getId().toString()))
             .body(addressDTO);
     }
 
@@ -78,19 +75,19 @@ public class AddressResource {
     ) throws URISyntaxException {
         LOG.debug("REST request to update Address : {}, {}", id, addressDTO);
         if (addressDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BadRequestException("Invalid id");
         }
         if (!Objects.equals(id, addressDTO.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BadRequestException("Invalid ID");
         }
 
         if (!addressRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BadRequestException("Entity not found");
         }
 
         addressDTO = addressService.update(addressDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, addressDTO.getId().toString()))
+//            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, addressDTO.getId().toString()))
             .body(addressDTO);
     }
 
@@ -112,22 +109,22 @@ public class AddressResource {
     ) throws URISyntaxException {
         LOG.debug("REST request to partial update Address partially : {}, {}", id, addressDTO);
         if (addressDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BadRequestException("Invalid id");
         }
         if (!Objects.equals(id, addressDTO.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BadRequestException("Invalid ID");
         }
 
         if (!addressRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BadRequestException("Entity not found");
         }
 
         Optional<AddressDTO> result = addressService.partialUpdate(addressDTO);
-
-        return ResponseUtil.wrapOrNotFound(
-            result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, addressDTO.getId().toString())
-        );
+        return ResponseEntity.ok(result.orElseThrow());
+//        return ResponseUtil.wrapOrNotFound(
+//            result,
+//            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, addressDTO.getId().toString())
+//        );
     }
 
     /**
@@ -151,7 +148,8 @@ public class AddressResource {
     public ResponseEntity<AddressDTO> getAddress(@PathVariable("id") Long id) {
         LOG.debug("REST request to get Address : {}", id);
         Optional<AddressDTO> addressDTO = addressService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(addressDTO);
+        return ResponseEntity.ok(addressDTO.orElseThrow());
+//        return ResponseUtil.wrapOrNotFound(addressDTO);
     }
 
     /**
@@ -165,7 +163,7 @@ public class AddressResource {
         LOG.debug("REST request to delete Address : {}", id);
         addressService.delete(id);
         return ResponseEntity.noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+//            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
 }

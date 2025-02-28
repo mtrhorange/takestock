@@ -57,6 +57,7 @@ public class AccountResource {
         }
         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
 //        mailService.sendActivationEmail(user);
+        String test = "hdbchb";
     }
 
     /**
