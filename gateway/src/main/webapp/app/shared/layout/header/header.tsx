@@ -13,9 +13,9 @@ import { Brand, Home } from './header-components';
 export interface IHeaderProps {
   isAuthenticated: boolean;
   isAdmin: boolean;
-  ribbonEnv: string;
-  isInProduction: boolean;
-  isOpenAPIEnabled: boolean;
+  // ribbonEnv: string;
+  // isInProduction: boolean;
+  // isOpenAPIEnabled: boolean;
   currentLocale: string;
 }
 
@@ -31,13 +31,14 @@ const Header = (props: IHeaderProps) => {
   };
 
   const renderDevRibbon = () =>
-    props.isInProduction === false ? (
-      <div className="ribbon dev">
-        <a href="">
-          <Translate contentKey={`global.ribbon.${props.ribbonEnv}`} />
-        </a>
-      </div>
-    ) : null;
+    // props.isInProduction === false ? (
+    //   <div className="ribbon dev">
+    //     <a href="">
+    //       <Translate contentKey={`global.ribbon.${props.ribbonEnv}`} />
+    //     </a>
+    //   </div>
+    // ) :
+    null;
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
@@ -54,7 +55,7 @@ const Header = (props: IHeaderProps) => {
           <Nav id="header-tabs" className="ms-auto" navbar>
             <Home />
             {props.isAuthenticated && <EntitiesMenu />}
-            {props.isAuthenticated && props.isAdmin && <AdminMenu showOpenAPI={props.isOpenAPIEnabled} />}
+            {props.isAuthenticated && props.isAdmin && <AdminMenu showOpenAPI={true} />}
             <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
             <AccountMenu isAuthenticated={props.isAuthenticated} />
           </Nav>
