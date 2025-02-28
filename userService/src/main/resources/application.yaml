@@ -3,3 +3,5 @@ spring:
     name: userService
   config:
     import: "optional:configserver:http://localhost:8088"
+  profiles:
+    active: dev # Change to 'prod' in production
