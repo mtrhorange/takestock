@@ -23,11 +23,11 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
 
-    // private final PaymentMapper paymentMapper;
+     private final PaymentMapper paymentMapper;
 
-    public PaymentService(PaymentRepository paymentRepository) {
+    public PaymentService(PaymentRepository paymentRepository, PaymentMapper paymentMapper) {
         this.paymentRepository = paymentRepository;
-        // this.paymentMapper = paymentMapper;
+         this.paymentMapper = paymentMapper;
     }
 
     /**
@@ -38,10 +38,9 @@ public class PaymentService {
      */
     public PaymentDTO save(PaymentDTO paymentDTO) {
         LOG.debug("Request to save Payment : {}", paymentDTO);
-        return null;
-        // Payment payment = paymentMapper.toEntity(paymentDTO);
-        // payment = paymentRepository.save(payment);
-        // return paymentMapper.toDto(payment);
+        Payment payment = paymentMapper.toEntity(paymentDTO);
+        payment = paymentRepository.save(payment);
+        return paymentMapper.toDto(payment);
     }
 
     /**
@@ -52,10 +51,9 @@ public class PaymentService {
      */
     public PaymentDTO update(PaymentDTO paymentDTO) {
         LOG.debug("Request to update Payment : {}", paymentDTO);
-        return null;
-        // Payment payment = paymentMapper.toEntity(paymentDTO);
-        // payment = paymentRepository.save(payment);
-        // return paymentMapper.toDto(payment);
+        Payment payment = paymentMapper.toEntity(paymentDTO);
+        payment = paymentRepository.save(payment);
+        return paymentMapper.toDto(payment);
     }
 
     /**
@@ -67,16 +65,16 @@ public class PaymentService {
     public Optional<PaymentDTO> partialUpdate(PaymentDTO paymentDTO) {
         LOG.debug("Request to partially update Payment : {}", paymentDTO);
 
-        return null;
-        // return paymentRepository
-        //     .findById(paymentDTO.getId())
-        //     .map(existingPayment -> {
-        //         paymentMapper.partialUpdate(existingPayment, paymentDTO);
-        //
-        //         return existingPayment;
-        //     })
-        //     .map(paymentRepository::save)
-        //     .map(paymentMapper::toDto);
+
+        return paymentRepository
+             .findById(paymentDTO.getId())
+             .map(existingPayment -> {
+                 paymentMapper.partialUpdate(existingPayment, paymentDTO);
+
+                 return existingPayment;
+             })
+             .map(paymentRepository::save)
+             .map(paymentMapper::toDto);
     }
 
     /**
@@ -88,8 +86,7 @@ public class PaymentService {
     @Transactional(readOnly = true)
     public Page<PaymentDTO> findAll(Pageable pageable) {
         LOG.debug("Request to get all Payments");
-        return null;
-        // return paymentRepository.findAll(pageable).map(paymentMapper::toDto);
+        return paymentRepository.findAll(pageable).map(paymentMapper::toDto);
     }
 
     /**
@@ -101,8 +98,7 @@ public class PaymentService {
     @Transactional(readOnly = true)
     public Optional<PaymentDTO> findOne(Long id) {
         LOG.debug("Request to get Payment : {}", id);
-        return null;
-        // return paymentRepository.findById(id).map(paymentMapper::toDto);
+        return paymentRepository.findById(id).map(paymentMapper::toDto);
     }
 
     /**
