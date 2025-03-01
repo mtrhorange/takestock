@@ -3,19 +3,15 @@ package com.ecommerce.product.web.rest;
 import com.ecommerce.product.repository.ProductRepository;
 import com.ecommerce.product.service.ProductService;
 import com.ecommerce.product.service.dto.ProductDTO;
-import com.ecommerce.product.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -33,13 +29,10 @@ public class ProductResource {
     private static final Logger LOG = LoggerFactory.getLogger(ProductResource.class);
 
     private static final String ENTITY_NAME = "productServiceProduct";
-
-    @Value("${jhipster.clientApp.name}")
-    private String applicationName;
-
     private final ProductService productService;
-
     private final ProductRepository productRepository;
+    //    @Value("${jhipster.clientApp.name}")
+    private String applicationName = "productService";
 
     public ProductResource(ProductService productService, ProductRepository productRepository) {
         this.productService = productService;
@@ -61,14 +54,14 @@ public class ProductResource {
         }
         productDTO = productService.save(productDTO);
         return ResponseEntity.created(new URI("/api/products/" + productDTO.getId()))
-            // .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, productDTO.getId()))
-            .body(productDTO);
+                // .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, productDTO.getId()))
+                .body(productDTO);
     }
 
     /**
      * {@code PUT  /products/:id} : Updates an existing product.
      *
-     * @param id the id of the productDTO to save.
+     * @param id         the id of the productDTO to save.
      * @param productDTO the productDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated productDTO,
      * or with status {@code 400 (Bad Request)} if the productDTO is not valid,
@@ -77,8 +70,8 @@ public class ProductResource {
      */
     @PutMapping("/{id}")
     public ResponseEntity<ProductDTO> updateProduct(
-        @PathVariable(value = "id", required = false) final String id,
-        @Valid @RequestBody ProductDTO productDTO
+            @PathVariable(value = "id", required = false) final String id,
+            @Valid @RequestBody ProductDTO productDTO
     ) throws URISyntaxException {
         LOG.debug("REST request to update Product : {}, {}", id, productDTO);
         if (productDTO.getId() == null) {
@@ -94,14 +87,14 @@ public class ProductResource {
 
         productDTO = productService.update(productDTO);
         return ResponseEntity.ok()
-            // .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, productDTO.getId()))
-            .body(productDTO);
+                // .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, productDTO.getId()))
+                .body(productDTO);
     }
 
     /**
      * {@code PATCH  /products/:id} : Partial updates given fields of an existing product, field will ignore if it is null
      *
-     * @param id the id of the productDTO to save.
+     * @param id         the id of the productDTO to save.
      * @param productDTO the productDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated productDTO,
      * or with status {@code 400 (Bad Request)} if the productDTO is not valid,
@@ -109,29 +102,26 @@ public class ProductResource {
      * or with status {@code 500 (Internal Server Error)} if the productDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/{id}", consumes = {"application/json", "application/merge-patch+json"})
     public ResponseEntity<ProductDTO> partialUpdateProduct(
-        @PathVariable(value = "id", required = false) final String id,
-        @NotNull @RequestBody ProductDTO productDTO
+            @PathVariable(value = "id", required = false) final String id,
+            @NotNull @RequestBody ProductDTO productDTO
     ) throws URISyntaxException {
         LOG.debug("REST request to partial update Product partially : {}, {}", id, productDTO);
         if (productDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BadRequestException("Invalid id");
         }
         if (!Objects.equals(id, productDTO.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BadRequestException("Invalid ID");
         }
 
         if (!productRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BadRequestException("Entity not found");
         }
 
         Optional<ProductDTO> result = productService.partialUpdate(productDTO);
 
-        return ResponseUtil.wrapOrNotFound(
-            result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, productDTO.getId())
-        );
+        return ResponseEntity.ok(result.orElseThrow());
     }
 
     /**
@@ -141,11 +131,13 @@ public class ProductResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of products in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<ProductDTO>> getAllProducts(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<ProductDTO>> getAllProducts(Pageable pageable) {
         LOG.debug("REST request to get a page of Products");
         Page<ProductDTO> page = productService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+//        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok()
+//                .headers(headers)
+                .body(page.getContent());
     }
 
     /**
@@ -158,7 +150,7 @@ public class ProductResource {
     public ResponseEntity<ProductDTO> getProduct(@PathVariable("id") String id) {
         LOG.debug("REST request to get Product : {}", id);
         Optional<ProductDTO> productDTO = productService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(productDTO);
+        return ResponseEntity.ok(productDTO.orElseThrow());
     }
 
     /**
@@ -171,6 +163,8 @@ public class ProductResource {
     public ResponseEntity<Void> deleteProduct(@PathVariable("id") String id) {
         LOG.debug("REST request to delete Product : {}", id);
         productService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
+        return ResponseEntity.noContent()
+//                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id))
+                .build();
     }
 }
