@@ -41,9 +41,9 @@ export const UserActivityUpdate = () => {
   }, [updateSuccess]);
 
   const saveEntity = values => {
-    if (values.id !== undefined && typeof values.id !== 'number') {
-      values.id = Number(values.id);
-    }
+    // if (values.id !== undefined && typeof values.id !== 'number') {
+    //   values.id = Number(values.id);
+    // }
     values.timestamp = convertDateTimeToServer(values.timestamp);
 
     const entity = {

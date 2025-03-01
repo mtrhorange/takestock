@@ -40,9 +40,9 @@ export const ProductUpdate = () => {
   }, [updateSuccess]);
 
   const saveEntity = values => {
-    if (values.id !== undefined && typeof values.id !== 'number') {
-      values.id = Number(values.id);
-    }
+    // if (values.id !== undefined && typeof values.id !== 'number') {
+    //   values.id = Number(values.id);
+    // }
     if (values.price !== undefined && typeof values.price !== 'number') {
       values.price = Number(values.price);
     }
