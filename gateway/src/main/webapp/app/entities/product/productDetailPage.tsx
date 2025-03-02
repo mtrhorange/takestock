@@ -40,6 +40,8 @@ const ProductDetailPage = () => {
       price: product.price,
       qty: quantity,
       imageUrl: product.imageUrl,
+      selected: false,
+      stock: product.stock,
     };
     console.warn(obj);
     addToCart(obj);

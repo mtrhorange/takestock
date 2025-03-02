@@ -7,12 +7,17 @@ interface CartItem {
   qty: number;
   price: number;
   imageUrl: string;
+  selected: boolean; // New field to track selection
+  stock: number;
 }
 
 interface CartContextType {
   cart: CartItem[];
   addToCart: (item: CartItem) => void;
   removeFromCart: (productId: string) => void;
+  updateQuantity: (productId: string, qty: number) => void;
+  toggleSelect: (productId: string, selected: boolean) => void;
+  clearCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -31,7 +36,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (existingItem) {
         return prevCart.map(cartItem => (cartItem.productId === item.productId ? { ...cartItem, qty: cartItem.qty + qty } : cartItem));
       } else {
-        return [...prevCart, { ...item, qty }];
+        return [...prevCart, { ...item, qty, selected: false }];
       }
     });
   };
@@ -40,7 +45,23 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCart(prevCart => prevCart.filter(item => item.productId !== productId));
   };
 
-  return <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>{children}</CartContext.Provider>;
+  const updateQuantity = (productId: string, qty: number) => {
+    setCart(prevCart => prevCart.map(item => (item.productId === productId ? { ...item, qty } : item)));
+  };
+
+  const toggleSelect = (productId: string, selected: boolean) => {
+    setCart(prevCart => prevCart.map(item => (item.productId === productId ? { ...item, selected } : item)));
+  };
+
+  const clearCart = () => {
+    setCart([]);
+  };
+
+  return (
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity, toggleSelect, clearCart }}>
+      {children}
+    </CartContext.Provider>
+  );
 };
 
 export const useCart = () => {

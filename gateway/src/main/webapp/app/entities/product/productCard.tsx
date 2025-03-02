@@ -19,6 +19,8 @@ const ProductCard = ({ product }) => {
       price: product1.price,
       qty: 1,
       imageUrl: product1.imageUrl,
+      selected: false,
+      stock: product.stock,
     };
     addToCart(obj);
   };

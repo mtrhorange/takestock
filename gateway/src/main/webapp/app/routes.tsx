@@ -43,6 +43,10 @@ const ProductDetailPage = Loadable({
   loading: () => loading,
 });
 
+const CartPage = Loadable({
+  loader: () => import(/* webpackChunkName: "administration" */ 'app/entities/product/cartPage'),
+  loading: () => loading,
+});
 
 const AppRoutes = () => {
   return (
@@ -51,6 +55,7 @@ const AppRoutes = () => {
         <Route path="home" element={<ProductPage />} />
         <Route path="search-results" element={<SearchProductPage />} />
         <Route path="product-details" element={<ProductDetailPage />} />
+        <Route path="cart" element={<CartPage />} />
         {/* <Route path="home" element={<Home />} /> */}
         <Route path="/" element={<Login />} />
         <Route path="logout" element={<Logout />} />
