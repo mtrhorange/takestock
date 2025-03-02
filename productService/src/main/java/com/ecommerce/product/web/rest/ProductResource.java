@@ -140,6 +140,14 @@ public class ProductResource {
                 .body(page.getContent());
     }
 
+    @GetMapping("pageProduct")
+    public ResponseEntity<Page<ProductDTO>> getAllProductsPageable(Pageable pageable) {
+        LOG.debug("REST request to get a page of Products");
+        Page<ProductDTO> page = productService.findAll(pageable);
+//        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok(page);
+    }
+
     /**
      * {@code GET  /products/:id} : get the "id" product.
      *
