@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 
 export interface IUserActivity {
   id?: number;
-  userId?: string;
+  userId1?: string;
   productId?: string;
   action?: string;
   timestamp?: dayjs.Dayjs;

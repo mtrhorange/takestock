@@ -96,7 +96,7 @@ export const UserActivityUpdate = () => {
               <ValidatedField
                 label={translate('gatewayApp.userActivity.userId')}
                 id="user-activity-userId"
-                name="userId"
+                name="userId1"
                 data-cy="userId"
                 type="text"
                 validate={{

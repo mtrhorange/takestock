@@ -114,7 +114,7 @@ export const UserActivity = () => {
                       {userActivity.id}
                     </Button>
                   </td>
-                  <td>{userActivity.userId}</td>
+                  <td>{userActivity.userId1}</td>
                   <td>{userActivity.productId}</td>
                   <td>{userActivity.action}</td>
                   <td>

@@ -37,7 +37,7 @@ export const UserActivityDetail = () => {
               <Translate contentKey="gatewayApp.userActivity.userId">User Id</Translate>
             </span>
           </dt>
-          <dd>{userActivityEntity.userId}</dd>
+          <dd>{userActivityEntity.userId1}</dd>
           <dt>
             <span id="productId">
               <Translate contentKey="gatewayApp.userActivity.productId">Product Id</Translate>
