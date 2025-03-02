@@ -24,7 +24,7 @@ const ProductCard = ({ product }) => {
   };
 
   const clickProductDetail = () => {
-    navigate('/product', { state: { productId: product.id } });
+    navigate('/product-details', { state: { productId: product.id } });
   };
 
   return (
