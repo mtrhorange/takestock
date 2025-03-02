@@ -1,0 +1,99 @@
+[{
+  "_id": {
+    "$oid": "67c3e310aa13d6eee68b2b2b"
+  },
+  "user_id_1": "1",
+  "product_id": "67c29a5f0d335b5cc5e9c00a",
+  "action": "view",
+  "timestamp": {
+    "$date": "2024-03-02T10:15:00.000Z"
+  },
+  "_class": "com.ecommerce.product.domain.UserActivity"
+},
+{
+  "_id": {
+    "$oid": "67c3e310aa13d6eee68b2b2c"
+  },
+  "user_id_1": 1,
+  "product_id": "67c29a5f0d335b5cc5e9c00a",
+  "action": "purchase",
+  "timestamp": "2024-03-01T12:45:00Z"
+},
+{
+  "_id": {
+    "$oid": "67c3e310aa13d6eee68b2b2d"
+  },
+  "user_id_1": 1,
+  "product_id": "67c29a5f0d335b5cc5e9c00a",
+  "action": "add_to_cart",
+  "timestamp": "2024-02-28T14:30:45Z"
+},
+{
+  "_id": {
+    "$oid": "67c3e310aa13d6eee68b2b2e"
+  },
+  "user_id_1": "2",
+  "product_id": "67c29a5f0d335b5cc5e9c00b",
+  "action": "view",
+  "timestamp": {
+    "$date": "2024-02-27T09:20:00.000Z"
+  },
+  "_class": "com.ecommerce.product.domain.UserActivity"
+},
+{
+  "_id": {
+    "$oid": "67c3e310aa13d6eee68b2b2f"
+  },
+  "user_id_1": 2,
+  "product_id": "67c29a5f0d335b5cc5e9c00b",
+  "action": "add_to_cart",
+  "timestamp": "2024-02-26T11:10:55Z"
+},
+{
+  "_id": {
+    "$oid": "67c4141a11d0372a07023e8b"
+  },
+  "user_id_1": "2",
+  "product_id": "67c29a5f0d335b5cc5e9c00a",
+  "action": "view",
+  "timestamp": {
+    "$date": "2025-03-02T08:19:00.000Z"
+  },
+  "_class": "com.ecommerce.product.domain.UserActivity"
+},
+{
+  "_id": {
+    "$oid": "67c42336c6bbd27ca394def3"
+  },
+  "user_id_1": "1",
+  "product_id": "67c29a5f0d335b5cc5e9c00a",
+  "action": "add_to_cart",
+  "timestamp": {
+    "$date": "2025-03-02T11:00:41.734Z"
+  },
+  "_class": "com.ecommerce.product.domain.UserActivity"
+},
+{
+  "_id": {
+    "$oid": "67c43b0eeec1ac36fb46445f"
+  },
+  "user_id_1": "1",
+  "product_id": "67c435c8eec1ac36fb46445e",
+  "action": "view",
+  "timestamp": {
+    "$date": "2025-03-02T11:07:02.389Z"
+  },
+  "_class": "com.ecommerce.product.domain.UserActivity"
+},
+{
+  "_id": {
+    "$oid": "67c43b53eec1ac36fb464460"
+  },
+  "user_id_1": "1",
+  "product_id": "67c435c8eec1ac36fb46445e",
+  "action": "add_to_cart",
+  "timestamp": {
+    "$date": "2025-03-02T11:07:05.736Z"
+  },
+  "_class": "com.ecommerce.product.domain.UserActivity"
+}]

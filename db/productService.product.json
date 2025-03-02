@@ -1,0 +1,70 @@
+[{
+  "_id": {
+    "$oid": "67c29a5f0d335b5cc5e9c00a"
+  },
+  "name": "Samsung Galaxy S25",
+  "description": "Samsung flagship phone with AMOLED displa",
+  "price": "999.99",
+  "category": "Smartphones",
+  "brand": "Samsung",
+  "stock": 40,
+  "image_url": "https://m.media-amazon.com/images/I/513i8RC4-KL._AC_SX679_.jpg",
+  "tags": "smartphone, samsung, galaxy",
+  "_class": "com.ecommerce.product.domain.Product"
+},
+{
+  "_id": {
+    "$oid": "67c29a5f0d335b5cc5e9c00b"
+  },
+  "name": "Sony WH-1000XM5",
+  "description": "Noise-canceling wireless headphones",
+  "price": "399.99",
+  "category": "Headphones",
+  "brand": "Sony",
+  "stock": 20,
+  "image_url": "https://m.media-amazon.com/images/I/514bkhGFloL._AC_SX679_.jpg",
+  "tags": "headphones, sony, noise-canceling",
+  "_class": "com.ecommerce.product.domain.Product"
+},
+{
+  "_id": {
+    "$oid": "67c43534eec1ac36fb46445c"
+  },
+  "name": "Soney WH-CH720N Noise Canceling Wireless Headphones Bluetooth",
+  "description": "Noise Cancelling with Dual Noise Sensor technology and the Integrated Processor V1 from the award-winning WH-1000XM5",
+  "price": "108.92",
+  "category": "Headset",
+  "brand": "Sony",
+  "stock": 5,
+  "image_url": "https://m.media-amazon.com/images/I/51rpbVmi9XL._AC_SX679_.jpg",
+  "tags": "Headset",
+  "_class": "com.ecommerce.product.domain.Product"
+},
+{
+  "_id": {
+    "$oid": "67c43576eec1ac36fb46445d"
+  },
+  "name": "Sony WF-1000XM5 Wireless Noise Cancelling Earbuds",
+  "description": "The best noise cancelling with two high performance processors and dual feedback microphones",
+  "price": "279",
+  "category": "Headset",
+  "brand": "Sony",
+  "stock": 5,
+  "image_url": "https://m.media-amazon.com/images/I/61GJAFdM9pL._AC_SX679_.jpg",
+  "tags": "Headset",
+  "_class": "com.ecommerce.product.domain.Product"
+},
+{
+  "_id": {
+    "$oid": "67c435c8eec1ac36fb46445e"
+  },
+  "name": "Sony WI-C100 Wireless In-ear Headphones",
+  "description": "Splash-proof and sweat-proof with an IPX4 rating",
+  "price": "40",
+  "category": "Headphones",
+  "brand": "Sony",
+  "stock": 6,
+  "image_url": "https://m.media-amazon.com/images/I/61du0tJ7YfL._AC_SX679_.jpg",
+  "tags": "Headphones",
+  "_class": "com.ecommerce.product.domain.Product"
+}]
