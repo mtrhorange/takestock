@@ -35,9 +35,25 @@ export const getSession = (): AppThunk => async (dispatch, getState) => {
   }
 };
 
-export const getAccount = createAsyncThunk('authentication/get_account', async () => axios.get<any>('api/account'), {
-  serializeError: serializeAxiosError,
-});
+// export const getAccount = createAsyncThunk('authentication/get_account', async () => axios.get<any>('api/account'), {
+//   serializeError: serializeAxiosError,
+// });
+
+export const getAccount = createAsyncThunk(
+  'authentication/get_account',
+  async () => {
+    const response = await axios.get<any>('api/account');
+    const accountData = response.data;
+
+    // ✅ Save in localStorage
+    localStorage.setItem('account', JSON.stringify(accountData));
+
+    return response;
+  },
+  {
+    serializeError: serializeAxiosError,
+  },
+);
 
 interface IAuthParams {
   username: string;

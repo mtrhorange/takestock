@@ -25,12 +25,17 @@ a {
 .app-container {
   box-sizing: border-box;
   .view-container {
+    flex-grow: 1; /* Makes it take remaining space */
+    min-height: calc(100vh - 65px); /* Ensures it stretches */
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    height: calc(100% - 40px);
+    // height: calc(100% - 65px);
     overflow-y: auto;
     overflow-x: hidden;
     padding: 1rem;
     .card {
+      min-height: calc(100vh - 100px); /* Ensures it stretches */
       padding: 1rem;
     }
     .view-routes {

@@ -15,6 +15,7 @@ import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
+import ProductDetailPage from './entities/product/productDetailPage';
 
 const loading = <div>loading ...</div>;
 
@@ -27,12 +28,26 @@ const Admin = Loadable({
   loader: () => import(/* webpackChunkName: "administration" */ 'app/modules/administration'),
   loading: () => loading,
 });
+
+const ProductPage = Loadable({
+  loader: () => import(/* webpackChunkName: "administration" */ 'app/entities/product/productPage'),
+  loading: () => loading,
+});
+
+const SearchProductPage = Loadable({
+  loader: () => import(/* webpackChunkName: "administration" */ 'app/entities/product/searchProductPage'),
+  loading: () => loading,
+});
+
 const AppRoutes = () => {
   return (
     <div className="view-routes">
       <ErrorBoundaryRoutes>
-        <Route index element={<Home />} />
-        <Route path="login" element={<Login />} />
+        <Route path="home" element={<ProductPage />} />
+        <Route path="search-results" element={<SearchProductPage />} />
+        <Route path="product" element={<ProductDetailPage />} />
+        {/* <Route path="home" element={<Home />} /> */}
+        <Route path="/" element={<Login />} />
         <Route path="logout" element={<Logout />} />
         <Route path="account">
           <Route

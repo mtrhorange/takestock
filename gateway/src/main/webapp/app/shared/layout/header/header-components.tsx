@@ -1,9 +1,11 @@
 import React from 'react';
 import { Translate } from 'react-jhipster';
-
+import { Home as HomeIcon } from '@mui/icons-material';
 import { NavItem, NavLink, NavbarBrand } from 'reactstrap';
-import { NavLink as Link } from 'react-router-dom';
+import { NavLink as Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Typography } from '@mui/material';
+import { useSearch } from 'app/context/searchContext';
 
 export const BrandIcon = props => (
   <div {...props} className="brand-icon">
@@ -21,13 +23,27 @@ export const Brand = () => (
   </NavbarBrand>
 );
 
-export const Home = () => (
-  <NavItem>
-    <NavLink tag={Link} to="/" className="d-flex align-items-center">
-      <FontAwesomeIcon icon="home" />
+export const Home = () => {
+  const { setSearchTerm } = useSearch();
+  const navigate = useNavigate();
+
+  const onClick = () => {
+    setSearchTerm('');
+    navigate('/home');
+  };
+
+  return (
+    // <NavItem>
+    <NavLink onClick={onClick} className="d-flex align-items-center">
+      {/* <FontAwesomeIcon icon="home" /> */}
+      <HomeIcon style={{ color: 'white' }} />
       <span>
-        <Translate contentKey="global.menu.home">Home</Translate>
+        <Typography variant="h6" style={{ color: 'white', paddingLeft: '10px' }}>
+          eCommerce Store
+        </Typography>
+        {/* <Translate contentKey="global.menu.home">Home</Translate> */}
       </span>
     </NavLink>
-  </NavItem>
-);
+    // </NavItem>
+  );
+};

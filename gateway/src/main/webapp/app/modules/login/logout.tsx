@@ -14,6 +14,7 @@ export const Logout = () => {
     } else if (!authentication.isAuthenticated) {
       window.location.href = '/';
     }
+    localStorage.removeItem('account'); // ✅ Clears only the account data
   });
 
   return (
