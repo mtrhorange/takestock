@@ -148,6 +148,17 @@ public class ProductResource {
         return ResponseEntity.ok(page);
     }
 
+    @GetMapping("search")
+    public ResponseEntity<Page<ProductDTO>> getSearchProducts(
+            @RequestParam(name = "search", required = false, defaultValue = "") String searchTerm,
+            Pageable pageable
+    ) {
+        LOG.debug("REST request to get a page of Products");
+        Page<ProductDTO> productPage = productRepository.findByNameLike(searchTerm, pageable);
+//        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok(productPage);
+    }
+
     /**
      * {@code GET  /products/:id} : get the "id" product.
      *
