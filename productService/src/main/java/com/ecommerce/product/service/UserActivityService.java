@@ -1,16 +1,19 @@
 package com.ecommerce.product.service;
 
 import com.ecommerce.product.domain.UserActivity;
+import com.ecommerce.product.repository.ProductRepository;
 import com.ecommerce.product.repository.UserActivityRepository;
+import com.ecommerce.product.service.dto.ProductDTO;
 import com.ecommerce.product.service.dto.UserActivityDTO;
+import com.ecommerce.product.service.mapper.ProductMapper;
 import com.ecommerce.product.service.mapper.UserActivityMapper;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link com.ecommerce.product.domain.UserActivity}.
@@ -24,9 +27,20 @@ public class UserActivityService {
 
     private final UserActivityMapper userActivityMapper;
 
-    public UserActivityService(UserActivityRepository userActivityRepository, UserActivityMapper userActivityMapper) {
+    private final ProductRepository productRepository;
+
+    private final ProductMapper productMapper;
+
+    public UserActivityService(
+            UserActivityRepository userActivityRepository,
+            UserActivityMapper userActivityMapper,
+            ProductRepository productRepository,
+            ProductMapper productMapper
+    ) {
         this.userActivityRepository = userActivityRepository;
         this.userActivityMapper = userActivityMapper;
+        this.productRepository = productRepository;
+        this.productMapper = productMapper;
     }
 
     /**
@@ -65,14 +79,14 @@ public class UserActivityService {
         LOG.debug("Request to partially update UserActivity : {}", userActivityDTO);
 
         return userActivityRepository
-            .findById(userActivityDTO.getId())
-            .map(existingUserActivity -> {
-                userActivityMapper.partialUpdate(existingUserActivity, userActivityDTO);
+                .findById(userActivityDTO.getId())
+                .map(existingUserActivity -> {
+                    userActivityMapper.partialUpdate(existingUserActivity, userActivityDTO);
 
-                return existingUserActivity;
-            })
-            .map(userActivityRepository::save)
-            .map(userActivityMapper::toDto);
+                    return existingUserActivity;
+                })
+                .map(userActivityRepository::save)
+                .map(userActivityMapper::toDto);
     }
 
     /**
@@ -122,4 +136,36 @@ public class UserActivityService {
         return userActivityMapper.toDto(userActivity);
     }
 
+    public List<ProductDTO> getRecommendedProducts(String userId) {
+        // Get products the user has interacted with
+        List<UserActivity> userActivities = userActivityRepository.findByUserId1(userId);
+        Set<String> viewedProductIds = userActivities.stream()
+                .map(UserActivity::getProductId)
+                .collect(Collectors.toSet());
+
+        // Find other users who interacted with the same products
+        Set<String> similarUserIds = new HashSet<>();
+        for (String productId : viewedProductIds) {
+            List<UserActivity> similarUsers = userActivityRepository.findByProductId(productId);
+            for (UserActivity activity : similarUsers) {
+                if (!activity.getUserId1().equals(userId)) {
+                    similarUserIds.add(activity.getUserId1());
+                }
+            }
+        }
+
+        // Get products viewed by similar users
+        Set<String> recommendedProductIds = new HashSet<>();
+        for (String similarUserId : similarUserIds) {
+            List<UserActivity> similarUserActivities = userActivityRepository.findByUserId1(similarUserId);
+            for (UserActivity activity : similarUserActivities) {
+                if (!viewedProductIds.contains(activity.getProductId())) {
+                    recommendedProductIds.add(activity.getProductId());
+                }
+            }
+        }
+
+        return productRepository.findAllById(recommendedProductIds).stream()
+                .map(productMapper::toDto).limit(5).collect(Collectors.toCollection(LinkedList::new));
+    }
 }

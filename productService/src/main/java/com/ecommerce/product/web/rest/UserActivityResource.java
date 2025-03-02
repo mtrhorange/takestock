@@ -2,6 +2,7 @@ package com.ecommerce.product.web.rest;
 
 import com.ecommerce.product.repository.UserActivityRepository;
 import com.ecommerce.product.service.UserActivityService;
+import com.ecommerce.product.service.dto.ProductDTO;
 import com.ecommerce.product.service.dto.UserActivityDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -171,5 +172,12 @@ public class UserActivityResource {
         return ResponseEntity.created(new URI("/api/user-activities/" + userActivityDTO.getId()))
 //            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, userActivityDTO.getId()))
                 .body(userActivityDTO);
+    }
+
+    @GetMapping("/recommend/{userId}")
+    public ResponseEntity<List<ProductDTO>> getRecommendations(@PathVariable String userId) {
+        LOG.debug("REST request to get recommended products : {}", userId);
+
+        return ResponseEntity.ok(userActivityService.getRecommendedProducts(userId));
     }
 }
