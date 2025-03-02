@@ -105,4 +105,21 @@ public class UserActivityService {
         LOG.debug("Request to delete UserActivity : {}", id);
         userActivityRepository.deleteById(id);
     }
+
+    public UserActivityDTO saveOrUpdate(UserActivityDTO userActivityDTO) {
+        LOG.debug("Request to save or update UserActivity : {}", userActivityDTO);
+        Optional<UserActivity> userActivityOptional = userActivityRepository.findByUserId1AndProductIdAndAction(userActivityDTO.getUserId1(), userActivityDTO.getProductId(), userActivityDTO.getAction());
+
+        UserActivity userActivity = null;
+        if (userActivityOptional.isPresent()) {
+            userActivity = userActivityOptional.get();
+            userActivity.setTimestamp(Instant.now());
+        } else {
+            userActivity = userActivityMapper.toEntity(userActivityDTO);
+        }
+
+        userActivity = userActivityRepository.save(userActivity);
+        return userActivityMapper.toDto(userActivity);
+    }
+
 }

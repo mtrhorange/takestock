@@ -161,4 +161,15 @@ public class UserActivityResource {
 //                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id))
                 .build();
     }
+
+    @PostMapping("/userActivity")
+    public ResponseEntity<UserActivityDTO> createOrUpdateUserActivity(@Valid @RequestBody UserActivityDTO userActivityDTO)
+            throws URISyntaxException {
+        LOG.debug("REST request to save or update UserActivity : {}", userActivityDTO);
+
+        userActivityDTO = userActivityService.saveOrUpdate(userActivityDTO);
+        return ResponseEntity.created(new URI("/api/user-activities/" + userActivityDTO.getId()))
+//            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, userActivityDTO.getId()))
+                .body(userActivityDTO);
+    }
 }
