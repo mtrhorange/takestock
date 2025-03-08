@@ -186,4 +186,16 @@ public class ProductResource {
 //                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id))
                 .build();
     }
+
+    @PostMapping("/placeOrder")
+    public ResponseEntity<Void> placeOrder(@Valid @RequestBody List<ProductDTO> productDTO) throws URISyntaxException {
+        LOG.debug("REST request to update Product qty : {}", productDTO);
+
+        if (productDTO.isEmpty()) {
+            throw new BadRequestException("product cannot be update as it is empty");
+        }
+
+        productService.reduceStock(productDTO);
+        return ResponseEntity.noContent().build();
+    }
 }

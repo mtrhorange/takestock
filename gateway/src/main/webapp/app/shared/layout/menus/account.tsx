@@ -9,7 +9,9 @@ import {
   Login as LoginIcon,
   PersonAdd as PersonAddIcon,
   AccountCircle as AccountCircleIcon,
+  Receipt as ReceiptIcon,
 } from '@mui/icons-material';
+import { icon } from '@fortawesome/fontawesome-svg-core';
 
 // const accountMenuItemsAuthenticated = () => (
 //   <>
@@ -58,6 +60,7 @@ export const AccountMenu = ({ isAuthenticated = false }) => {
   const authenticatedMenuItems = [
     { name: 'settings', path: '/account/settings', icon: <SettingsIcon />, dataCy: 'settings' },
     { name: 'password', path: '/account/password', icon: <LockIcon />, dataCy: 'passwordItem' },
+    { name: 'orders', path: '/orders', icon: <ReceiptIcon />, dataCy: 'viewOrderItem' },
     { name: 'logout', path: '/logout', icon: <ExitToAppIcon />, dataCy: 'logout' },
   ];
 

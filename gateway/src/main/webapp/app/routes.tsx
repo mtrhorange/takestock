@@ -48,6 +48,16 @@ const CartPage = Loadable({
   loading: () => loading,
 });
 
+const OrderAckPage = Loadable({
+  loader: () => import(/* webpackChunkName: "administration" */ 'app/entities/order/orderAckPage'),
+  loading: () => loading,
+});
+
+const ViewOrderPage = Loadable({
+  loader: () => import(/* webpackChunkName: "administration" */ 'app/entities/order/viewOrderPage'),
+  loading: () => loading,
+});
+
 const AppRoutes = () => {
   return (
     <div className="view-routes">
@@ -56,6 +66,8 @@ const AppRoutes = () => {
         <Route path="search-results" element={<SearchProductPage />} />
         <Route path="product-details" element={<ProductDetailPage />} />
         <Route path="cart" element={<CartPage />} />
+        <Route path="/order-ack" element={<OrderAckPage />} />
+        <Route path="orders" element={<ViewOrderPage />} />
         {/* <Route path="home" element={<Home />} /> */}
         <Route path="/" element={<Login />} />
         <Route path="logout" element={<Logout />} />

@@ -1,6 +1,7 @@
 package com.ecommerce.product.service.dto;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -32,6 +33,10 @@ public class ProductDTO implements Serializable {
     private String imageUrl;
 
     private String tags;
+
+    private Integer qty;
+
+    private String productId;
 
     public String getId() {
         return id;
@@ -105,6 +110,22 @@ public class ProductDTO implements Serializable {
         this.tags = tags;
     }
 
+    public Integer getQty() {
+        return qty;
+    }
+
+    public void setQty(Integer qty) {
+        this.qty = qty;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -130,15 +151,17 @@ public class ProductDTO implements Serializable {
     @Override
     public String toString() {
         return "ProductDTO{" +
-            "id='" + getId() + "'" +
-            ", name='" + getName() + "'" +
-            ", description='" + getDescription() + "'" +
-            ", price=" + getPrice() +
-            ", category='" + getCategory() + "'" +
-            ", brand='" + getBrand() + "'" +
-            ", stock=" + getStock() +
-            ", imageUrl='" + getImageUrl() + "'" +
-            ", tags='" + getTags() + "'" +
-            "}";
+                "id='" + getId() + "'" +
+                ", name='" + getName() + "'" +
+                ", description='" + getDescription() + "'" +
+                ", price=" + getPrice() +
+                ", category='" + getCategory() + "'" +
+                ", brand='" + getBrand() + "'" +
+                ", stock=" + getStock() +
+                ", imageUrl='" + getImageUrl() + "'" +
+                ", tags='" + getTags() + "'" +
+                ", qty='" + getQty() + "'" +
+                ", productId='" + getProductId() + "'" +
+                "}";
     }
 }

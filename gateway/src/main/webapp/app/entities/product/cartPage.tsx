@@ -4,6 +4,9 @@ import { Container } from 'reactstrap';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useCart } from 'app/context/cartContext';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+const apiUrl = 'api/';
 
 const CartPage: React.FC = () => {
   const { cart, removeFromCart, updateQuantity, toggleSelect } = useCart();
@@ -37,13 +40,27 @@ const CartPage: React.FC = () => {
   }, [cart]);
 
   const clickCheckOut = () => {
-    const selectedProducts = cart.filter(item => item.selected).map(({ productId, price, qty }) => ({ productId, price, qty }));
+    const selectedProducts = cart
+      .filter(item => item.selected)
+      .map(({ productId, price, qty, imageUrl, name }) => ({ productId, price, qty, imageUrl, name }));
+
+    if (selectedProducts.length === 0) {
+      console.warn('No products selected for checkout.');
+      return;
+    }
 
     const orderPayload = {
       productsOrder: selectedProducts,
       totalPrice: parseFloat(totalPrice), // Ensure it's a number, not a string
       userId1: account.id,
     };
+
+    const requestUrl = `${apiUrl}orders/placeOrder`;
+    axios.post(requestUrl, orderPayload).then(res => {
+      axios.post(`${apiUrl}products/placeOrder`, selectedProducts).then(() => {
+        navigate('/order-ack', { state: orderPayload });
+      });
+    });
 
     console.warn(orderPayload); // Replace with API call if needed
   };

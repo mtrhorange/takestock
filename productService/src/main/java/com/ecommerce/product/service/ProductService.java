@@ -4,12 +4,14 @@ import com.ecommerce.product.domain.Product;
 import com.ecommerce.product.repository.ProductRepository;
 import com.ecommerce.product.service.dto.ProductDTO;
 import com.ecommerce.product.service.mapper.ProductMapper;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Service Implementation for managing {@link com.ecommerce.product.domain.Product}.
@@ -64,14 +66,14 @@ public class ProductService {
         LOG.debug("Request to partially update Product : {}", productDTO);
 
         return productRepository
-            .findById(productDTO.getId())
-            .map(existingProduct -> {
-                productMapper.partialUpdate(existingProduct, productDTO);
+                .findById(productDTO.getId())
+                .map(existingProduct -> {
+                    productMapper.partialUpdate(existingProduct, productDTO);
 
-                return existingProduct;
-            })
-            .map(productRepository::save)
-            .map(productMapper::toDto);
+                    return existingProduct;
+                })
+                .map(productRepository::save)
+                .map(productMapper::toDto);
     }
 
     /**
@@ -104,5 +106,22 @@ public class ProductService {
     public void delete(String id) {
         LOG.debug("Request to delete Product : {}", id);
         productRepository.deleteById(id);
+    }
+
+    public void reduceStock(List<ProductDTO> productDTOs) {
+        LOG.debug("Request to update Product stock : {}", productDTOs);
+
+        for (ProductDTO productDTO : productDTOs) {
+            Product product = productRepository.findById(productDTO.getProductId())
+                    .orElseThrow(() -> new RuntimeException("Product not found: " + productDTO.getProductId()));
+
+            if (product.getStock() < productDTO.getQty()) {
+                throw new RuntimeException("Insufficient stock for product: " + product.getId());
+            }
+
+            // Deduct stock
+            product.setStock(product.getStock() - productDTO.getQty());
+            productRepository.save(product);
+        }
     }
 }
