@@ -22,13 +22,15 @@ jobs:
             mkdir -p ~/.ssh
           fi
 
-          if [ ! -f ~/.ssh/config ]; then
+          if [ -f ~/.ssh/config ]; then
+            rm ~/.ssh/config
+          fi
+
           cat <<EOF > ~/.ssh/config
           Host *
           ServerAliveInterval 60
           ServerAliveCountMax 3
           EOF
-          fi
           
           ssh -o StrictHostKeyChecking=no -i github-ec2.pem ${USER}@${HOST} '
           echo "Current directory: $(pwd)"
