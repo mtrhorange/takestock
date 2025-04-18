@@ -1,0 +1,100 @@
+# === docker-compose.yml ===
+version: "3.8"
+services:
+  mysql-user-order:
+    image: mysql:8.0
+    container_name: mysql-user-order
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: user_order_db
+    ports:
+      - "3306:3306"
+    networks:
+      - ecommerce-network
+
+  mongo-product:
+    image: mongo:6.0
+    container_name: mongo-product
+    ports:
+      - "27017:27017"
+    networks:
+      - ecommerce-network
+
+  config-server:
+    build: ./config-server
+    ports:
+      - "8888:8888"
+    networks:
+      - ecommerce-network
+
+  service-registry:
+    build: ./service-registry
+    ports:
+      - "8761:8761"
+    networks:
+      - ecommerce-network
+
+  user-service:
+    build: ./userService
+    depends_on:
+      - mysql-user-order
+      - config-server
+      - service-registry
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+    ports:
+      - "8082:8082"
+    networks:
+      - ecommerce-network
+
+  product-service:
+    build: ./productService
+    depends_on:
+      - mongo-product
+      - config-server
+      - service-registry
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+    ports:
+      - "8081:8081"
+    networks:
+      - ecommerce-network
+
+  order-service:
+    build: ./orderService
+    depends_on:
+      - mysql-user-order
+      - config-server
+      - service-registry
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+    ports:
+      - "8083:8083"
+    networks:
+      - ecommerce-network
+
+  api-gateway:
+    build: ./api-gateway
+    depends_on:
+      - config-server
+      - service-registry
+      - user-service
+      - product-service
+      - order-service
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+    ports:
+      - "9000:9000"
+    networks:
+      - ecommerce-network
+
+  frontend:
+    build: ./gateway
+    ports:
+      - "3000:80"
+    networks:
+      - ecommerce-network
+
+networks:
+  ecommerce-network:
+    driver: bridge
