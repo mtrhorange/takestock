@@ -1,4 +1,4 @@
-name: Deploy to EC2
+name: Build and Deploy React App to EC2
 
 on:
   push:
@@ -8,15 +8,24 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout Code
+        uses: actions/checkout@v2
 
-      - name: Deploy to EC2
-        env:
-          PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
-          HOST: ${{ secrets.EC2_HOST }}
-          USER: ${{ secrets.EC2_USER }}
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_KEY }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+      - name: Build Docker image
         run: |
-          echo "$PRIVATE_KEY" > github-ec2.pem && chmod 600 github-ec2.pem
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/react-app:latest .
+
+      - name: Push Docker image
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/react-app:latest
+
+      - name: Deploy to EC2 via SSH and Docker
+        run: |
+          echo "${{ secrets.EC2_PRIVATE_KEY }}" > ec2_key.pem
+          chmod 600 ec2_key.pem
           
           if [ ! -d ~/.ssh ]; then
             mkdir -p ~/.ssh
@@ -31,44 +40,14 @@ jobs:
           ServerAliveInterval 60
           ServerAliveCountMax 3
           EOF
-          
-          ssh -o StrictHostKeyChecking=no -i github-ec2.pem ${USER}@${HOST} '
-          echo "Current directory: $(pwd)"
-          echo "Listing home directory:"
-          ls -la ~
-          
-          echo "Installing Node.js..."
-          if ! command -v nvm &> /dev/null; then
-            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-          fi
-          nvm install node
-          
-          echo "Installing PM2..."
-          if ! command -v pm2 &> /dev/null; then
-          npm install -g pm2
-          fi
-          
-          REPO_URL="https://github.com/mtrhorange/takestock.git"
-          BRANCH="master"
-          REPO_DIR="$HOME/takestock"
-          
-          if [ -d "$REPO_DIR/.git" ]; then
-            cd "$REPO_DIR"
-            git pull origin "$BRANCH"
-          else
-            git clone "$REPO_URL" "$REPO_DIR"
-            cd "$REPO_DIR"
-          fi
-          
-          cd "$REPO_DIR/gateway"
-          npm install
-          
-          cd ~/takestock/gateway
-          git pull origin release
-          npm install
-          
-          echo "Starting/restarting application..."
-          npm start
-          '
+
+          ssh -o StrictHostKeyChecking=no -i ec2_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << EOF
+            docker pull ${{ secrets.DOCKER_USERNAME }}/react-app:latest
+
+            # Stop and remove old container if it exists
+            docker stop react-app || true
+            docker rm react-app || true
+
+            # Run the new container
+            docker run -d --name react-app -p 80:80 ${{ secrets.DOCKER_USERNAME }}/react-app:latest
+          EOF
