@@ -14,7 +14,8 @@ management:
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/productService
+      uri: mongodb+srv://user:iL!w3aUDUChEjd3@cluster0.2d8tyuv.mongodb.net/productService?retryWrites=true&w=majority&appName=Cluster0
+    #      uri: mongodb+srv://xianchee:4gA5Z9fBjOOzU7fT@cluster0.2d8tyuv.mongodb.net/productService?retryWrites=true&w=majority&appName=Cluster0
     main:
       allow-bean-definition-overriding: true
     autoconfigure:
