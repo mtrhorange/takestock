@@ -67,23 +67,23 @@ jobs:
             fi
           
             echo "Pulling Docker image..."
-            docker pull ${{ secrets.DOCKER_USERNAME }}/react-app:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/react-app:latest
 
             # Stop and remove old container if it exists
             echo "Stopping old container (if exists)..."
-            docker stop react-app || true
-            docker rm react-app || true
+            sudo docker stop react-app || true
+            sudo docker rm react-app || true
 
             # Run the new container
             echo "Running new container..."
-            docker run -d --name react-app -p 80:80 ${{ secrets.DOCKER_USERNAME }}/react-app:latest
+            sudo docker run -d --name react-app -p 80:80 ${{ secrets.DOCKER_USERNAME }}/react-app:latest
           
             echo "Waiting a few seconds for container to start..."
             sleep 5
       
             echo "Checking container status..."
-            docker ps -f name=react-app
+            sudo docker ps -f name=react-app
       
             echo "Checking logs..."
-            docker logs --tail 10 react-app
+            sudo docker logs --tail 10 react-app
           EOF
