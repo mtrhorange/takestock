@@ -2,7 +2,7 @@ name: Deploy to EC2
 
 on:
   push:
-    branches: [ master ]
+    branches: [ release ]
 
 jobs:
   deploy:
@@ -66,7 +66,7 @@ jobs:
           npm install
           
           cd ~/takestock/gateway
-          git pull origin main
+          git pull origin release
           npm install
           
           echo "Starting/restarting application..."
