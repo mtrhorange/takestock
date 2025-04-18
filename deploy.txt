@@ -17,26 +17,24 @@ jobs:
           USER: ${{ secrets.EC2_USER }}
         run: |
           echo "$PRIVATE_KEY" > github-ec2.pem && chmod 600 github-ec2.pem
-          
+
           if [ ! -d ~/.ssh ]; then
             mkdir -p ~/.ssh
           fi
 
-          if [ -f ~/.ssh/config ]; then
-            rm ~/.ssh/config
-          fi
-
+          if [ ! -f ~/.ssh/config ]; then
           cat <<EOF > ~/.ssh/config
           Host *
           ServerAliveInterval 60
           ServerAliveCountMax 3
           EOF
-          
+          fi
+
           ssh -o StrictHostKeyChecking=no -i github-ec2.pem ${USER}@${HOST} '
           echo "Current directory: $(pwd)"
           echo "Listing home directory:"
           ls -la ~
-          
+
           echo "Installing Node.js..."
           if ! command -v nvm &> /dev/null; then
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
@@ -44,16 +42,16 @@ jobs:
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
           fi
           nvm install node
-          
+
           echo "Installing PM2..."
           if ! command -v pm2 &> /dev/null; then
           npm install -g pm2
           fi
-          
+
           REPO_URL="https://github.com/mtrhorange/takestock.git"
           BRANCH="master"
           REPO_DIR="$HOME/takestock"
-          
+
           if [ -d "$REPO_DIR/.git" ]; then
             cd "$REPO_DIR"
             git pull origin "$BRANCH"
@@ -61,14 +59,17 @@ jobs:
             git clone "$REPO_URL" "$REPO_DIR"
             cd "$REPO_DIR"
           fi
-          
+
           cd "$REPO_DIR/gateway"
           npm install
-          
+
           cd ~/takestock/gateway
           git pull origin main
           npm install
-          
+
+          echo "Building the React app..."
+          npm run build
+
           echo "Starting/restarting application..."
-          npm start
+          pm2 restart my-app || pm2 start serve --name my-app -- -s build
           '
