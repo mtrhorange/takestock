@@ -18,8 +18,8 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > github-ec2.pem && chmod 600 github-ec2.pem
         
-          mkdir -p ~/.ssh
-          echo -e "Host *\n  ServerAliveInterval 60\n  ServerAliveCountMax 6" >> ~/.ssh/config
+#          mkdir -p ~/.ssh
+#          echo -e "Host *\n  ServerAliveInterval 60\n  ServerAliveCountMax 6" >> ~/.ssh/config
           
           ssh -o StrictHostKeyChecking=no -i github-ec2.pem ${USER}@${HOST} '
           echo "Current directory: $(pwd)"
