@@ -44,7 +44,7 @@ export const SearchProductPage = () => {
     };
 
     fetchProducts();
-  }, [page]); // ✅ Fetch products on page change or search change
+  }, [page, searchTerm]); // ✅ Fetch products on page change or search change
 
   // Convert products into rows of 5
   const rows = [];
