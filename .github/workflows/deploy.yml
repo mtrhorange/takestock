@@ -37,7 +37,7 @@ jobs:
           
           REPO_URL="https://github.com/mtrhorange/takestock.git"
           BRANCH="master"
-          REPO_DIR="$HOME/github-aws-ec2"
+          REPO_DIR="$HOME/takestock"
           
           if [ -d "$REPO_DIR/.git" ]; then
             cd "$REPO_DIR"
@@ -47,10 +47,10 @@ jobs:
             cd "$REPO_DIR"
           fi
           
-          cd "$REPO_DIR/simple-web-server"
+          cd "$REPO_DIR/frontend"
           npm install
           
-          cd ~/github-aws-ec2/simple-web-server
+          cd ~/takestock/frontend
           git pull origin main
           npm install
           
