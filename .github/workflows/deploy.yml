@@ -47,13 +47,16 @@ jobs:
             cd "$REPO_DIR"
           fi
           
-          cd "$REPO_DIR/frontend"
+          cd "$REPO_DIR/gateway"
           npm install
           
-          cd ~/takestock/frontend
+          cd ~/takestock/gateway
           git pull origin main
           npm install
           
+          echo "Building the React app..."
+          npm run build
+          
           echo "Starting/restarting application..."
-          pm2 restart server.js || pm2 start server.js
+          pm2 restart my-app || pm2 start serve --name my-app -- -s build
           '
