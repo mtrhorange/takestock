@@ -16,6 +16,7 @@ jobs:
 
       - name: Build Docker image
         run: |
+          cd gateway
           docker build -t ${{ secrets.DOCKER_USERNAME }}/react-app:latest .
 
       - name: Push Docker image
