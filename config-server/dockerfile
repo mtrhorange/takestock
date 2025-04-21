@@ -1,7 +1,7 @@
 # === Dockerfile for Backend Services (config-server, service-registry, userService, productService, orderService) ===
 # Save this as Dockerfile in each backend service folder
 # Stage 1: Build the JAR
-FROM openjdk:17-jdk-slim
+FROM openjdk:17-jdk-slim AS build
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
