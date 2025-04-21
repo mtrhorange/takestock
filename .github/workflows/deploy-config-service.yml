@@ -1,0 +1,89 @@
+name: Build and Deploy Config Service to EC2
+
+on:
+  push:
+    branches: [ release ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_KEY }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+      - name: Build Docker image
+        run: |
+          cd config-server
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/config-service:latest .
+
+      - name: Push Docker image
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/config-service:latest
+
+      - name: Deploy to EC2 via SSH and Docker
+        run: |
+          echo "${{ secrets.EC2_PRIVATE_KEY }}" > ec2_key.pem
+          chmod 600 ec2_key.pem
+          
+          if [ ! -d ~/.ssh ]; then
+            mkdir -p ~/.ssh
+          fi
+
+          if [ -f ~/.ssh/config ]; then
+            rm ~/.ssh/config
+          fi
+
+          cat <<EOF > ~/.ssh/config
+          Host *
+          ServerAliveInterval 60
+          ServerAliveCountMax 3
+          EOF
+
+          ssh -o StrictHostKeyChecking=no -i ec2_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << EOF
+          
+            echo "Installing Docker if not present..."
+            if ! command -v docker &> /dev/null; then
+              sudo apt-get update
+              sudo apt-get install -y ca-certificates curl gnupg lsb-release
+            
+              sudo mkdir -p /etc/apt/keyrings
+              curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+            
+              echo \
+                "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+                $(lsb_release -cs) stable" | \
+                sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+            
+              sudo apt-get update
+              sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+            
+              sudo usermod -aG docker \$USER
+              newgrp docker
+              sudo systemctl enable docker
+              sudo systemctl start docker
+            fi
+          
+            echo "Pulling Docker image..."
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/config-service:latest
+
+            # Stop and remove old container if it exists
+            echo "Stopping old container (if exists)..."
+            sudo docker stop config-service || true
+            sudo docker rm config-service || true
+
+            # Run the new container
+            echo "Running new container..."
+            sudo docker run -d --name react-app -p 88:88 ${{ secrets.DOCKER_USERNAME }}/config-service:latest
+          
+            echo "Waiting a few seconds for container to start..."
+            sleep 5
+      
+            echo "Checking container status..."
+            sudo docker ps -f name=config-service
+      
+            echo "Checking logs..."
+            sudo docker logs --tail 10 config-service
+          EOF
