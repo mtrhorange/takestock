@@ -57,7 +57,7 @@ const FilterSidebar = ({ filters, setFilters, handleApply, handleClearAll, allCa
           type="number"
           size="small"
           label="$ MAX"
-          value={filters.maxPrice}
+          value={filters.maxPrice} 
           onChange={(e) => setFilters((prev) => ({ ...prev, maxPrice: e.target.value }))}
         />
       </Box>
@@ -65,11 +65,12 @@ const FilterSidebar = ({ filters, setFilters, handleApply, handleClearAll, allCa
         APPLY
       </Button>
 
-      
-
-      {allCategories?.length > 0 ? <><Divider sx={{ my: 2, backgroundColor: '#ccc' }}  /> <Typography variant="h6" gutterBottom>
-        By Category
-      </Typography></> : null}
+      {allCategories?.length > 0 ? <>
+        <Divider sx={{ my: 2, backgroundColor: '#ccc' }}  /> 
+        <Typography variant="h6" gutterBottom>
+          By Category
+        </Typography>
+      </> : null}
       {allCategories?.map((cat) => (
         <FormControlLabel
           key={cat}
@@ -115,9 +116,9 @@ export const SearchProductPage = () => {
       });      
 
       const response = await axios.get(`${apiUrl}/search?${params}`);
-      setProducts(response.data.content);
+      filtersCategories(response.data.content);
       setTotalItems(response.data.totalElements);
-      const uniqueTags = Array.from(new Set(response.data.flatMap((p) => p.tags.split(','))));
+      const uniqueTags = Array.from(new Set(response.data.content.flatMap((p) => p.tags.split(','))));
       setAllCategories(uniqueTags);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -128,7 +129,20 @@ export const SearchProductPage = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, [page, searchTerm]);
+  }, [page, searchTerm, filters.categories]);
+
+  const filtersCategories = (productsDb) => {
+    if (filters.categories.length > 0) {
+      const filteredProducts = productsDb.filter(product => {
+        const productTags = product.tags.split(',').map(tag => tag.trim());
+        return productTags.some(tag => filters.categories.includes(tag));
+      });
+      
+      setProducts(filteredProducts);
+    } else {
+      setProducts(productsDb);
+    }
+  }
 
   const handleApply = () => {
     setPage(0);
