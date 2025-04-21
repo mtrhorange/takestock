@@ -14,6 +14,6 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    @Query(value = "SELECT o.* FROM jhi_order o WHERE user_id_1 = :userId1", nativeQuery = true)
+    @Query(value = "SELECT o.* FROM jhi_order o WHERE user_id_1 = :userId1 and order_status != 'CANCELLED'", nativeQuery = true)
     List<Order> findByUserId1(@Param("userId1") Long userId1);
 }

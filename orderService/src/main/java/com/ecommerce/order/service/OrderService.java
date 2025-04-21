@@ -208,4 +208,28 @@ public class OrderService {
         }).toList();
         return viewOrdersDTOList;
     }
+
+    public boolean cancelOrderById(Long id) {
+        Optional<Order> optionalOrder = orderRepository.findById(id);
+        if (optionalOrder.isPresent()) {
+            Order order = optionalOrder.get();
+            order.setOrderStatus("CANCELLED"); // Or set a deleted flag
+            orderRepository.save(order);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean refundOrderById(Long id) {
+        Optional<Order> optionalOrder = orderRepository.findById(id);
+        if (optionalOrder.isPresent()) {
+            Order order = optionalOrder.get();
+            order.setOrderStatus("RETURN_REFUND"); // Or set a deleted flag
+            orderRepository.save(order);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
