@@ -24,10 +24,15 @@ import ProductCard from './productCard';
 import { useLocation } from 'react-router-dom';
 
 const FilterSidebar = ({ filters, setFilters, handleApply, handleClearAll, allCategories }) => {
-  const toggleCategory = (category) => {
+  const toggleCategory = category => {
     const selected = new Set(filters.categories);
-    selected.has(category) ? selected.delete(category) : selected.add(category);
-    setFilters((prev) => ({ ...prev, categories: Array.from(selected) }));
+
+    if (selected.has(category)) {
+      selected.delete(category);
+    } else {
+      selected.add(category);
+    }
+    setFilters(prev => ({ ...prev, categories: Array.from(selected) }));
   };
 
   return (
@@ -48,30 +53,32 @@ const FilterSidebar = ({ filters, setFilters, handleApply, handleClearAll, allCa
           size="small"
           label="$ MIN"
           value={filters.minPrice}
-          onChange={(e) => setFilters((prev) => ({ ...prev, minPrice: e.target.value }))}
-        />  
+          onChange={e => setFilters(prev => ({ ...prev, minPrice: e.target.value }))}
+        />
         <Typography variant="body1" fontWeight="bold">
-        –
+          –
         </Typography>
         <TextField
           type="number"
           size="small"
           label="$ MAX"
-          value={filters.maxPrice} 
-          onChange={(e) => setFilters((prev) => ({ ...prev, maxPrice: e.target.value }))}
+          value={filters.maxPrice}
+          onChange={e => setFilters(prev => ({ ...prev, maxPrice: e.target.value }))}
         />
       </Box>
       <Button variant="contained" fullWidth onClick={handleApply} sx={{ mb: 2 }}>
         APPLY
       </Button>
 
-      {allCategories?.length > 0 ? <>
-        <Divider sx={{ my: 2, backgroundColor: '#ccc' }}  /> 
-        <Typography variant="h6" gutterBottom>
-          By Category
-        </Typography>
-      </> : null}
-      {allCategories?.map((cat) => (
+      {allCategories?.length > 0 ? (
+        <>
+          <Divider sx={{ my: 2, backgroundColor: '#ccc' }} />
+          <Typography variant="h6" gutterBottom>
+            By Category
+          </Typography>
+        </>
+      ) : null}
+      {allCategories?.map(cat => (
         <FormControlLabel
           key={cat}
           control={<Checkbox checked={filters.categories.includes(cat)} onChange={() => toggleCategory(cat)} />}
@@ -113,12 +120,12 @@ export const SearchProductPage = () => {
         minPrice: filters.minPrice.toString(),
         maxPrice: filters.maxPrice.toString(),
         cacheBuster: new Date().getTime().toString(),
-      });      
+      });
 
       const response = await axios.get(`${apiUrl}/search?${params}`);
       filtersCategories(response.data.content);
       setTotalItems(response.data.totalElements);
-      const uniqueTags = Array.from(new Set(response.data.content.flatMap((p) => p.tags.split(','))));
+      const uniqueTags = Array.from(new Set(response.data.content.flatMap(p => p.tags.split(','))));
       setAllCategories(uniqueTags);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -131,18 +138,18 @@ export const SearchProductPage = () => {
     fetchProducts();
   }, [page, searchTerm, filters.categories]);
 
-  const filtersCategories = (productsDb) => {
+  const filtersCategories = productsDb => {
     if (filters.categories.length > 0) {
       const filteredProducts = productsDb.filter(product => {
         const productTags = product.tags.split(',').map(tag => tag.trim());
         return productTags.some(tag => filters.categories.includes(tag));
       });
-      
+
       setProducts(filteredProducts);
     } else {
       setProducts(productsDb);
     }
-  }
+  };
 
   const handleApply = () => {
     setPage(0);
@@ -188,7 +195,7 @@ export const SearchProductPage = () => {
               <TableBody>
                 {rows.map((row, rowIndex) => (
                   <TableRow key={rowIndex}>
-                    {row.map((product) => (
+                    {row.map(product => (
                       <TableCell key={product.id} align="center">
                         <ProductCard product={product} />
                       </TableCell>

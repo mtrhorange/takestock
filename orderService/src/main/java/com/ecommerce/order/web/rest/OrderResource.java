@@ -2,6 +2,7 @@ package com.ecommerce.order.web.rest;
 
 import com.ecommerce.order.repository.OrderRepository;
 import com.ecommerce.order.service.OrderService;
+import com.ecommerce.order.service.dto.OrderCancelOrRefundDTO;
 import com.ecommerce.order.service.dto.OrderDTO;
 import com.ecommerce.order.service.dto.OrderPlaceDTO;
 import com.ecommerce.order.service.dto.ViewOrdersDTO;
@@ -193,5 +194,25 @@ public class OrderResource {
         LOG.debug("REST request to get Order : {}", id);
         List<ViewOrdersDTO> viewOrdersDTOList = orderService.findByUserId1(id);
         return ResponseEntity.ok(viewOrdersDTOList);
+    }
+
+    @PostMapping("/deleteOrder")
+    public ResponseEntity<String> cancelOrder(@RequestBody OrderCancelOrRefundDTO request) {
+        boolean success = orderService.cancelOrderById(request.getId());
+        if (success) {
+            return ResponseEntity.ok("Order cancelled successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found or already cancelled");
+        }
+    }
+
+    @PostMapping("/refundOrder")
+    public ResponseEntity<String> refundOrder(@RequestBody OrderCancelOrRefundDTO request) {
+        boolean success = orderService.refundOrderById(request.getId());
+        if (success) {
+            return ResponseEntity.ok("Order refund successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found");
+        }
     }
 }
