@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 /**
  * A Product.
@@ -27,7 +28,7 @@ public class Product implements Serializable {
     private String description;
 
     @NotNull
-    @Field("price")
+    @Field(targetType = FieldType.DECIMAL128)
     private BigDecimal price;
 
     @NotNull
