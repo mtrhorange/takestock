@@ -16,6 +16,15 @@ const orderTabs = [
   { label: 'Return Refund', status: 'RETURN_REFUND' },
 ];
 
+const orderStatusLabel = [
+  { label: 'Pending Payment', status: 'PENDING' },
+  { label: 'Pending Shipping', status: ['PAID', 'PROCESSING'] },
+  { label: 'Pending Delivery', status: ['SHIPPED', 'TO_RECEIVE'] },
+  { label: 'Completed', status: 'COMPLETED' },
+  { label: 'Cancelled', status: 'CANCELLED' },
+  { label: 'Return Refund', status: 'RETURN_REFUND' },
+];
+
 export const ViewOrderPage = () => {
   const account = JSON.parse(localStorage.getItem('account') || 'null');
   const [selectedTab, setSelectedTab] = useState('ALL');
@@ -95,7 +104,7 @@ export const ViewOrderPage = () => {
               <Paper key={order.orderDTO.id} sx={{ mb: 3, p: 3, boxShadow: 2, borderRadius: 2 }}>
                 {/* Order Status */}
                 <Typography variant="body2" color="primary" sx={{ mt: 1, fontWeight: 'bold' }}>
-                  {order.orderDTO.orderStatus.replace('_', ' ')}
+                  {orderStatusLabel.find(label => label.status.includes(order.orderDTO.orderStatus))?.label}
                 </Typography>
 
                 {/* Ordered Items */}
