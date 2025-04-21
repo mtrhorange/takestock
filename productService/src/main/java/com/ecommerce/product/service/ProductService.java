@@ -7,9 +7,14 @@ import com.ecommerce.product.service.mapper.ProductMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,9 +30,12 @@ public class ProductService {
 
     private final ProductMapper productMapper;
 
-    public ProductService(ProductRepository productRepository, ProductMapper productMapper) {
+    private final MongoTemplate mongoTemplate;
+
+    public ProductService(ProductRepository productRepository, ProductMapper productMapper, MongoTemplate mongoTemplate) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
+        this.mongoTemplate = mongoTemplate;
     }
 
     /**
@@ -123,5 +131,27 @@ public class ProductService {
             product.setStock(product.getStock() - productDTO.getQty());
             productRepository.save(product);
         }
+    }
+
+    public Page<ProductDTO> searchProducts(String name, BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable) {
+        Query query = new Query().with(pageable);
+
+        if (name != null && !name.isEmpty()) {
+            query.addCriteria(Criteria.where("name").regex(name, "i"));
+        }
+
+        if (minPrice != null && maxPrice != null) {
+            query.addCriteria(Criteria.where("price").gte(minPrice).lte(maxPrice));
+        } else if (minPrice != null) {
+            query.addCriteria(Criteria.where("price").gte(minPrice));
+        } else if (maxPrice != null) {
+            query.addCriteria(Criteria.where("price").lte(maxPrice));
+        }
+
+        List<Product> products = mongoTemplate.find(query, Product.class);
+        long total = mongoTemplate.count(Query.of(query).limit(-1).skip(-1), Product.class);
+
+        List<ProductDTO> dtos = products.stream().map(productMapper::toDto).toList();
+        return new PageImpl<>(dtos, pageable, total);
     }
 }

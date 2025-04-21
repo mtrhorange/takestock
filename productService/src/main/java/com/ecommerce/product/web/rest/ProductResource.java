@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -151,10 +152,12 @@ public class ProductResource {
     @GetMapping("search")
     public ResponseEntity<Page<ProductDTO>> getSearchProducts(
             @RequestParam(name = "search", required = false, defaultValue = "") String searchTerm,
+            @RequestParam(name = "minPrice", required = false) BigDecimal minPrice,
+            @RequestParam(name = "maxPrice", required = false) BigDecimal maxPrice,
             Pageable pageable
     ) {
         LOG.debug("REST request to get a page of Products");
-        Page<ProductDTO> productPage = productRepository.findByNameLike(searchTerm, pageable);
+        Page<ProductDTO> productPage = productService.searchProducts(searchTerm, minPrice, maxPrice, pageable);
 //        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok(productPage);
     }
