@@ -76,7 +76,7 @@ jobs:
 
             # Run the new container
             echo "Running new container..."
-            sudo docker run -d --name react-app -p 88:88 ${{ secrets.DOCKER_USERNAME }}/config-service:latest
+            sudo docker run -d --name config-service -p 88:88 ${{ secrets.DOCKER_USERNAME }}/config-service:latest
           
             echo "Waiting a few seconds for container to start..."
             sleep 5
