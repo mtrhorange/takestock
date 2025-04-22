@@ -10,6 +10,8 @@ import { useAuthStatus } from "./hooks/useAuthStatus";
 import CustomHeader from "./components/CustomHeader";
 import { CartProvider } from "./context/CartContext";
 import SearchProductScreen from "./screens/SearchProductScreen";
+import CartScreen from "./screens/CartScreen";
+import OrderAckScreen from "./screens/OrderAckScreen";
 
 function MainLayout({ children, cartCount }) {
 
@@ -77,6 +79,26 @@ export default function App() {
               {() => (
                 <MainLayout>
                   <SearchProductScreen />
+                </MainLayout>
+              )}
+            </Stack.Screen>
+            <Stack.Screen
+              name="Cart"
+              options={{ headerShown: false }} // we'll wrap it manually
+            >
+              {() => (
+                <MainLayout>
+                  <CartScreen />
+                </MainLayout>
+              )}
+            </Stack.Screen>
+            <Stack.Screen
+              name="OrderAck"
+              options={{ headerShown: false }} // we'll wrap it manually
+            >
+              {() => (
+                <MainLayout>
+                  <OrderAckScreen />
                 </MainLayout>
               )}
             </Stack.Screen>

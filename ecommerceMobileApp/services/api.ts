@@ -24,3 +24,5 @@ export const account = async () => {
   });
 };
 export const searchProducts = (params) => axios.get(`${API_GATEWAY_URL}/products/search?${params}`);
+export const placeOrder = (orderPayload) => axios.post(`${API_GATEWAY_URL}/orders/placeOrder`, orderPayload);
+export const stockQtyUpdate = (selectedProducts) => axios.post(`${API_GATEWAY_URL}/products/placeOrder`, selectedProducts);
