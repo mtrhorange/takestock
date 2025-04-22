@@ -23,4 +23,4 @@ export const account = async () => {
     },
   });
 };
-
+export const searchProducts = (params) => axios.get(`${API_GATEWAY_URL}/products/search?${params}`);
