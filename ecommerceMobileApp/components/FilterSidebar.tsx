@@ -1,16 +1,22 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { TextInput, Button, Checkbox } from 'react-native-paper';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { TextInput, Button, Checkbox } from "react-native-paper";
 
-const FilterSidebar = ({ filters, setFilters, handleApply, handleClearAll, allCategories }) => {
-  const toggleCategory = category => {
+const FilterSidebar = ({
+  filters,
+  setFilters,
+  handleApply,
+  handleClearAll,
+  allCategories,
+}) => {
+  const toggleCategory = (category) => {
     const selected = new Set(filters.categories);
     if (selected.has(category)) {
       selected.delete(category);
     } else {
       selected.add(category);
     }
-    setFilters(prev => ({ ...prev, categories: Array.from(selected) }));
+    setFilters((prev) => ({ ...prev, categories: Array.from(selected) }));
   };
 
   return (
@@ -26,7 +32,9 @@ const FilterSidebar = ({ filters, setFilters, handleApply, handleClearAll, allCa
           mode="outlined"
           keyboardType="numeric"
           value={filters.minPrice}
-          onChangeText={value => setFilters(prev => ({ ...prev, minPrice: value }))}
+          onChangeText={(value) =>
+            setFilters((prev) => ({ ...prev, minPrice: value }))
+          }
           style={styles.priceInput}
         />
         <Text style={styles.dash}>–</Text>
@@ -35,25 +43,38 @@ const FilterSidebar = ({ filters, setFilters, handleApply, handleClearAll, allCa
           mode="outlined"
           keyboardType="numeric"
           value={filters.maxPrice}
-          onChangeText={value => setFilters(prev => ({ ...prev, maxPrice: value }))}
+          onChangeText={(value) =>
+            setFilters((prev) => ({ ...prev, maxPrice: value }))
+          }
           style={styles.priceInput}
         />
       </View>
 
-      <Button mode="contained" onPress={handleApply} style={styles.button} buttonColor="#007AFF" textColor="white">
+      <Button
+        mode="contained"
+        onPress={handleApply}
+        style={styles.button}
+        buttonColor="#007AFF"
+        textColor="white"
+      >
         APPLY
       </Button>
 
       {allCategories?.length > 0 && (
         <>
           <Text style={styles.subHeader}>By Category</Text>
-          {allCategories.map(cat => (
+          {allCategories.map((cat) => (
             <View key={cat} style={styles.checkboxRow}>
               <Checkbox
-                status={filters.categories.includes(cat) ? 'checked' : 'unchecked'}
+                status={
+                  filters.categories.includes(cat) ? "checked" : "unchecked"
+                }
                 onPress={() => toggleCategory(cat)}
               />
-              <Text onPress={() => toggleCategory(cat)} style={styles.checkboxLabel}>
+              <Text
+                onPress={() => toggleCategory(cat)}
+                style={styles.checkboxLabel}
+              >
                 {cat}
               </Text>
             </View>
@@ -61,7 +82,13 @@ const FilterSidebar = ({ filters, setFilters, handleApply, handleClearAll, allCa
         </>
       )}
 
-      <Button mode="contained" onPress={handleClearAll} style={styles.clearButton} buttonColor="red" textColor="white">
+      <Button
+        mode="contained"
+        onPress={handleClearAll}
+        style={styles.clearButton}
+        buttonColor="red"
+        textColor="white"
+      >
         CLEAR ALL
       </Button>
     </View>
@@ -71,7 +98,7 @@ const FilterSidebar = ({ filters, setFilters, handleApply, handleClearAll, allCa
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderWidth: 1,
     borderRadius: 10,
     marginBottom: 16,
@@ -81,17 +108,17 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   headerBold: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   subHeader: {
     fontSize: 16,
     marginTop: 16,
     marginBottom: 8,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   priceRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 16,
   },
   priceInput: {
@@ -108,8 +135,8 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   checkboxRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   checkboxLabel: {
     fontSize: 16,

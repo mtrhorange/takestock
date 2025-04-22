@@ -23,11 +23,10 @@ function MainLayout({ children }) {
   );
 }
 
-
 const Stack = createNativeStackNavigator();
 const theme = {
   colors: {
-    text: '#000',
+    text: "#000",
   },
 };
 
@@ -41,7 +40,9 @@ export default function App() {
     <CartProvider>
       <PaperProvider theme={{ ...theme }}>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName={isAuthenticated ? "Home" : "Login"}>
+          <Stack.Navigator
+            initialRouteName={isAuthenticated ? "Home" : "Login"}
+          >
             <Stack.Screen
               name="Login"
               component={LoginScreen}
@@ -52,10 +53,7 @@ export default function App() {
               options={{ headerShown: false }}
               children={() => <MainTabs />}
             />
-            <Stack.Screen
-              name="Home"
-              options={{ headerShown: false }}
-            >
+            <Stack.Screen name="Home" options={{ headerShown: false }}>
               {() => (
                 <MainLayout>
                   <HomeScreen />

@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import { IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -10,29 +16,29 @@ const CustomHeader = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { cart } = useCart();
 
-  const handleSearch = async() => {
+  const handleSearch = async () => {
     if (searchTerm.trim()) {
       navigation.navigate("Search", { search: searchTerm.trim() });
       await AsyncStorage.setItem("searchTerm", searchTerm.trim());
     } else {
-        await AsyncStorage.setItem("searchTerm", '');
+      await AsyncStorage.setItem("searchTerm", "");
     }
   };
 
   useEffect(() => {
-    const loadSearchTerm = async() => {
-        setSearchTerm(await AsyncStorage.getItem("searchTerm"));
-    }
+    const loadSearchTerm = async () => {
+      setSearchTerm(await AsyncStorage.getItem("searchTerm"));
+    };
     loadSearchTerm();
   }, []);
 
   return (
     <View style={styles.header}>
-    <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+      <TouchableOpacity onPress={() => navigation.navigate("Home")}>
         <Text style={styles.title}>🛍️ Store</Text>
-    </TouchableOpacity>
+      </TouchableOpacity>
       <View style={styles.searchBar}>
-      <TextInput
+        <TextInput
           label="Search products"
           value={searchTerm}
           onChangeText={setSearchTerm}
@@ -53,14 +59,14 @@ const CustomHeader = () => {
 
       <View style={styles.rightIcons}>
         <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
-        <View style={styles.iconWrapper}>
+          <View style={styles.iconWrapper}>
             <IconButton icon="cart" iconColor="white" />
             {cart?.length > 0 && (
-                <View style={styles.badge}>
+              <View style={styles.badge}>
                 <Text style={styles.badgeText}>{cart?.length}</Text>
-                </View>
+              </View>
             )}
-        </View>
+          </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("Order")}>
           <IconButton icon="receipt" iconColor="white" />
@@ -103,7 +109,7 @@ const styles = StyleSheet.create({
     color: "#000",
     height: 44,
     fontSize: 16,
-    outlineStyle: 'none',
+    outlineStyle: "none",
     paddingHorizontal: 10,
   },
   rightIcons: {

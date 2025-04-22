@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Alert, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { TextInput, Button, Title, Checkbox } from "react-native-paper";
 import { authenticate, account } from "../services/api";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -26,8 +26,8 @@ const LoginScreen = ({ navigation }) => {
       const token = res.data.id_token;
       await AsyncStorage.setItem("token", token);
       const resAccount = await account();
-      console.log(resAccount)
-      await AsyncStorage.setItem('account', JSON.stringify(resAccount.data));
+      console.log(resAccount);
+      await AsyncStorage.setItem("account", JSON.stringify(resAccount.data));
 
       setError("");
       Alert.alert("Login successful");
@@ -50,11 +50,11 @@ const LoginScreen = ({ navigation }) => {
           contentStyle={{ color: "#000" }}
           theme={{
             colors: {
-              text: "#000",         // input text
-              primary: "#000",      // label and border when focused
-              outline: "#000",      // border when NOT focused
-              background: "#fff",   // input background
-              placeholder: "#000",  // label color
+              text: "#000", // input text
+              primary: "#000", // label and border when focused
+              outline: "#000", // border when NOT focused
+              background: "#fff", // input background
+              placeholder: "#000", // label color
               error: "#000",
             },
           }}
@@ -69,11 +69,11 @@ const LoginScreen = ({ navigation }) => {
           style={styles.input}
           theme={{
             colors: {
-              text: "#000",         // input text
-              primary: "#000",      // label and border when focused
-              outline: "#000",      // border when NOT focused
-              background: "#fff",   // input background
-              placeholder: "#000",  // label color
+              text: "#000", // input text
+              primary: "#000", // label and border when focused
+              outline: "#000", // border when NOT focused
+              background: "#fff", // input background
+              placeholder: "#000", // label color
               error: "#000",
             },
           }}
@@ -93,7 +93,9 @@ const LoginScreen = ({ navigation }) => {
           <Text style={styles.link}>Did you forget your password?</Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text style={styles.link}>You don't have an account yet? Register a new account</Text>
+          <Text style={styles.link}>
+            You don't have an account yet? Register a new account
+          </Text>
         </TouchableOpacity>
 
         <View style={styles.buttonGroup}>
@@ -123,7 +125,12 @@ const LoginScreen = ({ navigation }) => {
 export default LoginScreen;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center", padding: 20 },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
   card: {
     width: "100%",
     padding: 20,
@@ -134,10 +141,14 @@ const styles = StyleSheet.create({
   input: {
     marginBottom: 12,
     backgroundColor: "#fff", // fallback (should be handled by theme)
-  },  
-  title: { marginBottom: 16, textAlign: "center" }, 
+  },
+  title: { marginBottom: 16, textAlign: "center" },
   errorText: { color: "red", marginBottom: 8 },
-  checkboxContainer: { flexDirection: "row", alignItems: "center", marginBottom: 16 },
+  checkboxContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 16,
+  },
   checkboxLabel: { marginLeft: 8 },
   link: { color: "#f0ad4e", textDecorationLine: "underline", marginBottom: 10 },
   buttonGroup: {
@@ -167,5 +178,5 @@ const styles = StyleSheet.create({
   signInText: {
     color: "#2c0066",
     fontWeight: "bold",
-  },  
+  },
 });
