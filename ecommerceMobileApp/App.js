@@ -12,9 +12,9 @@ import { CartProvider } from "./context/CartContext";
 import SearchProductScreen from "./screens/SearchProductScreen";
 import CartScreen from "./screens/CartScreen";
 import OrderAckScreen from "./screens/OrderAckScreen";
+import OrderViewScreen from "./screens/OrderViewScreen";
 
-function MainLayout({ children, cartCount }) {
-
+function MainLayout({ children }) {
   return (
     <View style={{ flex: 1 }}>
       <CustomHeader />
@@ -99,6 +99,16 @@ export default function App() {
               {() => (
                 <MainLayout>
                   <OrderAckScreen />
+                </MainLayout>
+              )}
+            </Stack.Screen>
+            <Stack.Screen
+              name="Order"
+              options={{ headerShown: false }} // we'll wrap it manually
+            >
+              {() => (
+                <MainLayout>
+                  <OrderViewScreen />
                 </MainLayout>
               )}
             </Stack.Screen>
