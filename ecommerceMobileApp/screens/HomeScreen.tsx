@@ -47,12 +47,17 @@ const HomeScreen = () => {
     loadRecommendations();
   }, []);
 
-  const scrollByOffset = (offset: number) => {
-    flatListRef.current?.scrollToOffset({
-      offset,
-      animated: true,
-    });
-  };
+  const scrollLeft = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  }
+
+  const scrollRight = () => {
+    if (hasMore) {
+      setCurrentPage(currentPage + 1);
+    }
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -63,7 +68,7 @@ const HomeScreen = () => {
       ) : (
         <View style={styles.carouselWrapper}>
           <TouchableOpacity
-            onPress={() => scrollByOffset(-300)}
+            onPress={() => scrollLeft()}
             style={styles.arrowButton}
           >
             <Text style={styles.arrowText}>◀</Text>
@@ -84,7 +89,7 @@ const HomeScreen = () => {
           />
 
           <TouchableOpacity
-            onPress={() => scrollByOffset(300)}
+            onPress={() => scrollRight()}
             style={styles.arrowButton}
           >
             <Text style={styles.arrowText}>▶</Text>
