@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_GATEWAY_URL = "http://localhost:9000/api";
+const API_GATEWAY_URL = "http://localhost:8060/api";
 
 export const fetchProducts = () => axios.get(`${API_GATEWAY_URL}/products`);
 export const authenticate = (credentials: {
