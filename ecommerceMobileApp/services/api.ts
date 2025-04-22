@@ -3,7 +3,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const API_GATEWAY_URL = "http://localhost:8060/api";
 
-export const fetchProducts = () => axios.get(`${API_GATEWAY_URL}/products`);
+export const fetchProducts = (currentPage, pageSize) => axios.get(`${API_GATEWAY_URL}/products/pageProduct?page=${currentPage}&size=${pageSize}&sort=id`);
+export const fetchRecommendProducts = (id) => axios.get(`${API_GATEWAY_URL}/user-activities/recommend/${id}`);
+export const postUserAction = (productId, userId1, action) => axios.post(`${API_GATEWAY_URL}/user-activities/userActivity`, {
+  productId,
+  userId1,
+  action,
+  timestamp: new Date().toISOString(), // ✅ Converts to ISO string (Instant-compatible)
+})
 export const authenticate = (credentials: {
   username: string;
   password: string;
