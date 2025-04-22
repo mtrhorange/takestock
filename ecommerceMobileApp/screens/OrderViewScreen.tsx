@@ -59,12 +59,13 @@ const OrderViewScreen = () => {
 
   const filteredOrders =
     selectedTab === 'ALL'
-      ? orders
-      : orders.filter(order => {
-          const targetStatuses = orderTabs.find(tab =>
-            Array.isArray(tab.status) ? tab.status.includes(order.orderDTO.orderStatus) : tab.status === order.orderDTO.orderStatus
-          );
-          return targetStatuses?.status.includes(order.orderDTO.orderStatus) ?? false;
+        ? orders
+        : orders.filter(order => {
+            const tabStatus = orderTabs.find(tab => tab.status === selectedTab)?.status;
+            if (Array.isArray(tabStatus)) {
+            return tabStatus.includes(order.orderDTO.orderStatus);
+            }
+            return order.orderDTO.orderStatus === tabStatus;
         });
 
   const handleCancelOrder = async id => {
