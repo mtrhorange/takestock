@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { View, Alert, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { TextInput, Button, Title, Checkbox, useTheme } from "react-native-paper";
-import { authenticate } from "../services/api";
+import { authenticate, account } from "../services/api";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -21,7 +22,13 @@ const LoginScreen = ({ navigation }) => {
     }
 
     try {
-      await authenticate({ username, password });
+      const res = await authenticate({ username, password });
+      const token = res.data.id_token;
+      await AsyncStorage.setItem("token", token);
+      const resAccount = await account();
+      console.log(resAccount)
+      await AsyncStorage.setItem('account', JSON.stringify(resAccount.data));
+
       setError("");
       Alert.alert("Login successful");
       navigation.replace("Home");
