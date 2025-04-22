@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
-import { IconButton, Badge } from "react-native-paper";
+import { IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCart } from "../context/CartContext";
@@ -12,7 +12,7 @@ const CustomHeader = () => {
 
   const handleSearch = async() => {
     if (searchTerm.trim()) {
-      navigation.navigate("Search");
+      navigation.navigate("Search", { search: searchTerm.trim() });
       await AsyncStorage.setItem("searchTerm", searchTerm.trim());
     } else {
         await AsyncStorage.setItem("searchTerm", '');
@@ -24,7 +24,7 @@ const CustomHeader = () => {
         setSearchTerm(await AsyncStorage.getItem("searchTerm"));
     }
     loadSearchTerm();
-  }, [])
+  }, []);
 
   return (
     <View style={styles.header}>
@@ -62,8 +62,8 @@ const CustomHeader = () => {
             )}
         </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Account")}>
-          <IconButton icon="account" iconColor="white" />
+        <TouchableOpacity onPress={() => navigation.navigate("Order")}>
+          <IconButton icon="receipt" iconColor="white" />
         </TouchableOpacity>
       </View>
     </View>
