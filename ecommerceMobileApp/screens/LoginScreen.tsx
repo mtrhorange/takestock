@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Alert, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { TextInput, Button, Title, Checkbox, useTheme } from "react-native-paper";
+import { TextInput, Button, Title, Checkbox } from "react-native-paper";
 import { authenticate, account } from "../services/api";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
