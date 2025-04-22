@@ -1,8 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
-import { View, FlatList, ActivityIndicator, ScrollView, TouchableOpacity, StyleSheet, Text } from "react-native";
-import { Card, Paragraph, Title, Button } from "react-native-paper";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  FlatList,
+  ActivityIndicator,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+} from "react-native";
 import { fetchProducts, fetchRecommendProducts } from "../services/api";
-import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ProductCard from "../components/ProductCard";
 
@@ -14,8 +20,6 @@ const HomeScreen = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  const flatListRef = useRef<FlatList>(null);
 
   const loadProducts = async () => {
     setLoading(true);
@@ -51,13 +55,13 @@ const HomeScreen = () => {
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
     }
-  }
+  };
 
   const scrollRight = () => {
     if (hasMore) {
       setCurrentPage(currentPage + 1);
     }
-  }
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -85,7 +89,7 @@ const HomeScreen = () => {
             }}
             columnWrapperStyle={{
               justifyContent: "center", // ✅ center items in each row
-            }}             
+            }}
           />
 
           <TouchableOpacity

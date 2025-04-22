@@ -73,9 +73,7 @@ const DetailScreen = () => {
               { color: product.stock > 0 ? "green" : "red" },
             ]}
           >
-            {product.stock > 0
-              ? `${product.stock} in stock`
-              : "Out of stock"}
+            {product.stock > 0 ? `${product.stock} in stock` : "Out of stock"}
           </Text>
 
           {/* Quantity Picker */}
