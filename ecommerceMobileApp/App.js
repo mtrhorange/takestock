@@ -9,6 +9,7 @@ import { Provider as PaperProvider } from "react-native-paper";
 import { useAuthStatus } from "./hooks/useAuthStatus";
 import CustomHeader from "./components/CustomHeader";
 import { CartProvider } from "./context/CartContext";
+import SearchProductScreen from "./screens/SearchProductScreen";
 
 function MainLayout({ children, cartCount }) {
 
@@ -66,6 +67,16 @@ export default function App() {
               {() => (
                 <MainLayout>
                   <DetailScreen />
+                </MainLayout>
+              )}
+            </Stack.Screen>
+            <Stack.Screen
+              name="Search"
+              options={{ headerShown: false }} // we'll wrap it manually
+            >
+              {() => (
+                <MainLayout>
+                  <SearchProductScreen />
                 </MainLayout>
               )}
             </Stack.Screen>
