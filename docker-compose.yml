@@ -12,14 +12,6 @@ services:
     networks:
       - ecommerce-network
 
-  mongo-product:
-    image: mongo:6.0
-    container_name: mongo-product
-    ports:
-      - "27017:27017"
-    networks:
-      - ecommerce-network
-
   config-server:
     build: ./config-server
     ports:
