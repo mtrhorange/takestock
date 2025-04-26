@@ -2,7 +2,7 @@ name: Build and Deploy Config Service to EC2
 
 on:
   push:
-    branches: [ release ]
+    branches: [release]
 
 jobs:
   deploy:
@@ -27,7 +27,7 @@ jobs:
         run: |
           echo "${{ secrets.EC2_PRIVATE_KEY }}" > ec2_key.pem
           chmod 600 ec2_key.pem
-          
+
           if [ ! -d ~/.ssh ]; then
             mkdir -p ~/.ssh
           fi
@@ -43,7 +43,7 @@ jobs:
           EOF
 
           ssh -o StrictHostKeyChecking=no -i ec2_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << EOF
-          
+
             echo "Installing Docker if not present..."
             if ! command -v docker &> /dev/null; then
               sudo apt-get update
@@ -65,7 +65,7 @@ jobs:
               sudo systemctl enable docker
               sudo systemctl start docker
             fi
-          
+
             echo "Pulling Docker image..."
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/config-service:latest
 
@@ -76,14 +76,14 @@ jobs:
 
             # Run the new container
             echo "Running new container..."
-            sudo docker run -d --name config-service -p 88:88 ${{ secrets.DOCKER_USERNAME }}/config-service:latest
-          
+            sudo docker run -d --name config-service -p 8088:8088 ${{ secrets.DOCKER_USERNAME }}/config-service:latest
+
             echo "Waiting a few seconds for container to start..."
             sleep 5
-      
+
             echo "Checking container status..."
             sudo docker ps -f name=config-service
-      
+
             echo "Checking logs..."
             sudo docker logs --tail 10 config-service
           EOF
