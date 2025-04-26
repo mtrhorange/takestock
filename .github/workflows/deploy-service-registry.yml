@@ -76,7 +76,7 @@ jobs:
 
             # Run the new container
             echo "Running new container..."
-            sudo docker run -d --name service-registry -p 8761:8761 ${{ secrets.DOCKER_USERNAME }}/service-registry:latest
+            sudo docker run -d --name service-registry -p 88:88 ${{ secrets.DOCKER_USERNAME }}/service-registry:latest
 
             echo "Waiting a few seconds for container to start..."
             sleep 5

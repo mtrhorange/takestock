@@ -76,7 +76,7 @@ jobs:
 
             # Run the new container
             echo "Running new container..."
-            sudo docker run -d --name api-gateway -p 8060:8060 ${{ secrets.DOCKER_USERNAME }}/api-gateway:latest
+            sudo docker run -d --name api-gateway -p 88:88 ${{ secrets.DOCKER_USERNAME }}/api-gateway:latest
 
             echo "Waiting a few seconds for container to start..."
             sleep 5
