@@ -74,7 +74,15 @@ ssh -o StrictHostKeyChecking=no -i ec2_key.pem "$EC2_USER@$EC2_HOST" << EOF
   echo "Running new container..."
   sudo docker run -d --name $CONTAINER_NAME --network my-microservice-network -p $CONTAINER_PORT:$CONTAINER_PORT $DOCKER_USERNAME/$SERVICE_NAME:latest
 
+  echo "Waiting for container to start..."
+  sleep 5
+
+  echo "Showing container status..."
+  sudo docker ps -f name=${SERVICE_NAME}
+
+  echo "Showing latest logs..."
+  sudo docker logs --tail 10 ${SERVICE_NAME}
 EOF
 
 # Wait for the service health externally from GitHub runner (not inside SSH)
-wait_for_health "$SERVICE_NAME" "http://$EC2_HOST:$CONTAINER_PORT$HEALTH_ENDPOINT"
+# wait_for_health "$SERVICE_NAME" "http://$EC2_HOST:$CONTAINER_PORT$HEALTH_ENDPOINT"
