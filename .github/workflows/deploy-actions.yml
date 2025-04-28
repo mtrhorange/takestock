@@ -55,7 +55,7 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
       - name: Deploy Config Service
-        run: bash deploy.sh config-service config-service 8888
+        run: bash deploy.sh config-service config-service 8088
         env:
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_HOST: ${{ secrets.EC2_HOST }}
