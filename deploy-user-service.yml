@@ -73,14 +73,14 @@ jobs:
             echo "Stopping old container (if exists)..."
             sudo docker stop user-service || true
             sudo docker rm user-service || true
-          
+
             echo "Creating Docker network if it doesn't exist..."
             sudo docker network inspect my-microservice-network >/dev/null 2>&1 || \
             sudo docker network create my-microservice-network
 
             # Run the new container
             echo "Running new container..."
-            sudo docker run -d --name user-service --network my-microservice-network -p 83:83 ${{ secrets.DOCKER_USERNAME }}/user-service:latest
+            sudo docker run -d --name user-service --network my-microservice-network -p 8083:8083 ${{ secrets.DOCKER_USERNAME }}/user-service:latest
 
             echo "Waiting a few seconds for container to start..."
             sleep 5

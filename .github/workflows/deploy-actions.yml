@@ -63,7 +63,7 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
       - name: Deploy API Gateway
-        run: bash deploy.sh api-gateway api-gateway 8080
+        run: bash deploy.sh api-gateway api-gateway 8060
         env:
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_HOST: ${{ secrets.EC2_HOST }}
@@ -77,4 +77,3 @@ jobs:
           EC2_HOST: ${{ secrets.EC2_HOST }}
           EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-
