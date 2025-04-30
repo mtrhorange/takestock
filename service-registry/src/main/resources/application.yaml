@@ -6,9 +6,9 @@ spring:
     name: service-registry
 eureka:
   instance:
-    hostname: 3.1.6.201
+    hostname: 13.229.124.81
   client:
     register-with-eureka: false
     fetch-registry: false
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://${eureka.instance.hostname}:${server.port}
