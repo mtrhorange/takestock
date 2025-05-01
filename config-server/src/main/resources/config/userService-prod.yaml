@@ -4,7 +4,7 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://13.229.124.81:8761
+      defaultZone: http://${GATEWAY_URL:54.206.153.186}:8761/eureka/
 
 management:
   tracing:
