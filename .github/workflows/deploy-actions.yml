@@ -37,20 +37,20 @@ jobs:
 
           # Build and push user-service
           cd userService
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/userService:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/userService:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/user-service:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/user-service:latest
           cd ..
           
           # Build and push order-service
           cd orderService
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/orderService:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/orderService:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/order-service:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/order-service:latest
           cd ..
           
           # Build and push product-service
           cd productService
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/productService:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/productService:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/product-service:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/product-service:latest
           cd ..
 
       - name: Prepare Deploy Script
