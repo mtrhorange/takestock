@@ -40,6 +40,18 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/user-service:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/user-service:latest
           cd ..
+          
+          # Build and push order-service
+          cd orderService
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/order-service:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/order-service:latest
+          cd ..
+          
+          # Build and push product-service
+          cd productService
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/product-service:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/product-service:latest
+          cd ..
 
       - name: Prepare Deploy Script
         run: |
@@ -50,7 +62,7 @@ jobs:
         run: bash deploy.sh service-registry service-registry 8761
         env:
           EC2_USER: ${{ secrets.EC2_USER }}
-          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_HOST: ${{ secrets.GATEWAY_HOST }}
           EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
@@ -58,7 +70,7 @@ jobs:
         run: bash deploy.sh config-service config-service 8088
         env:
           EC2_USER: ${{ secrets.EC2_USER }}
-          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_HOST: ${{ secrets.GATEWAY_HOST }}
           EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
@@ -66,7 +78,7 @@ jobs:
         run: bash deploy.sh api-gateway api-gateway 8060
         env:
           EC2_USER: ${{ secrets.EC2_USER }}
-          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_HOST: ${{ secrets.GATEWAY_HOST }}
           EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
@@ -74,6 +86,22 @@ jobs:
         run: bash deploy.sh user-service user-service 8081
         env:
           EC2_USER: ${{ secrets.EC2_USER }}
-          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_HOST: ${{ secrets.USER_SERVICE_HOST }}
+          EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+
+      - name: Deploy Order Service
+        run: bash deploy.sh order-service order-service 8085
+        env:
+          EC2_USER: ${{ secrets.EC2_USER }}
+          EC2_HOST: ${{ secrets.USER_SERVICE_HOST }}
+          EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+
+      - name: Deploy Product Service
+        run: bash deploy.sh product-service product-service 8084
+        env:
+          EC2_USER: ${{ secrets.EC2_USER }}
+          EC2_HOST: ${{ secrets.PRODUCT_SERVICE_HOST }}
           EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
