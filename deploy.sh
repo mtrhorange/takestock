@@ -36,8 +36,7 @@ wait_for_health() {
   return 1
 }
 
-ssh -o StrictHostKeyChecking=no -i ec2_key.pem "$EC2_USER@$EC2_HOST" << 'EOF'
-
+ssh -o StrictHostKeyChecking=no -i ec2_key.pem "$EC2_USER@$EC2_HOST" <<EOF
   echo "Installing Docker if not present..."
   if ! command -v docker &> /dev/null; then
     sudo yum update -y
@@ -59,6 +58,7 @@ ssh -o StrictHostKeyChecking=no -i ec2_key.pem "$EC2_USER@$EC2_HOST" << 'EOF'
   sudo docker network inspect my-microservice-network >/dev/null 2>&1 || \
   sudo docker network create my-microservice-network
 
+  echo "Using image: $DOCKER_USERNAME/$SERVICE_NAME:latest"
   echo "Running new container..."
   sudo docker run -d --name $CONTAINER_NAME --network my-microservice-network -p $CONTAINER_PORT:$CONTAINER_PORT $DOCKER_USERNAME/$SERVICE_NAME:latest
 
@@ -66,10 +66,10 @@ ssh -o StrictHostKeyChecking=no -i ec2_key.pem "$EC2_USER@$EC2_HOST" << 'EOF'
   sleep 5
 
   echo "Showing container status..."
-  sudo docker ps -f name=${SERVICE_NAME}
+  sudo docker ps -f name=$CONTAINER_NAME
 
   echo "Showing latest logs..."
-  sudo docker logs --tail 10 ${SERVICE_NAME}
+  sudo docker logs --tail 10 $CONTAINER_NAME
 EOF
 
 # Wait for the service health externally from GitHub runner (not inside SSH)
