@@ -95,7 +95,7 @@ jobs:
           SQL_USER: ${{ secrets.SQL_USER }}
 
       - name: Deploy User Service
-        run: bash deploy.sh userService userService 8083
+        run: bash deploy.sh user-service user-service 8083
         env:
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_HOST: ${{ secrets.USER_SERVICE_HOST }}
@@ -108,7 +108,7 @@ jobs:
           SQL_USER: ${{ secrets.SQL_USER }}
 
       - name: Deploy Order Service
-        run: bash deploy.sh orderService orderService 8085
+        run: bash deploy.sh order-service order-service 8085
         env:
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_HOST: ${{ secrets.USER_SERVICE_HOST }}
@@ -121,7 +121,7 @@ jobs:
           SQL_USER: ${{ secrets.SQL_USER }}
 
       - name: Deploy Product Service
-        run: bash deploy.sh productService productService 8084
+        run: bash deploy.sh product-service product-service 8084
         env:
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_HOST: ${{ secrets.PRODUCT_SERVICE_HOST }}
