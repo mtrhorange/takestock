@@ -5,7 +5,7 @@ on:
     branches: [release] # or whatever branch you want for deployment
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -52,7 +52,10 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/product-service:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/product-service:latest
           cd ..
-
+  deploy-gateway:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
       - name: Prepare Deploy Script
         run: |
           echo "${{ secrets.EC2_PRIVATE_KEY }}" > ec2_key.pem
@@ -93,6 +96,14 @@ jobs:
           SQL_HOST: ${{ secrets.SQL_HOST }}
           SQL_PW: ${{ secrets.SQL_PW }}
           SQL_USER: ${{ secrets.SQL_USER }}
+  deploy-user-service:
+    runs-on: ubuntu-latest
+    needs: deploy-gateway
+    steps:
+      - name: Prepare Deploy Script
+        run: |
+          echo "${{ secrets.EC2_PRIVATE_KEY }}" > ec2_key.pem
+          chmod 600 ec2_key.pem
 
       - name: Deploy User Service
         run: bash deploy.sh user-service user-service 8083
@@ -119,7 +130,14 @@ jobs:
           SQL_HOST: ${{ secrets.SQL_HOST }}
           SQL_PW: ${{ secrets.SQL_PW }}
           SQL_USER: ${{ secrets.SQL_USER }}
-
+  deploy-product-service:
+    runs-on: ubuntu-latest
+    needs: deploy-gateway
+    steps:
+      - name: Prepare Deploy Script
+        run: |
+          echo "${{ secrets.EC2_PRIVATE_KEY }}" > ec2_key.pem
+          chmod 600 ec2_key.pem
       - name: Deploy Product Service
         run: bash deploy.sh product-service product-service 8084
         env:
