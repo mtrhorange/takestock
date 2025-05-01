@@ -153,40 +153,23 @@ public class DbInitController {
         List<String> inserts = List.of(
                 // 1) Seed jhi_authority
                 """
-                        INSERT INTO userservice.jhi_authority (name) VALUES
-                          ('ROLE_ADMIN'),
-                          ('ROLE_USER')
-                        ON DUPLICATE KEY UPDATE name = name;
+                        INSERT INTO orderService.jhi_order (id, user_id_1, total_price, order_status, payment_status, created_date) VALUES
+                        (1, 8620, 31152.13, 'luck encouragement strait', 'nor phooey', '2025-02-11 05:02:26'),
+                        (2, 32308, 7542.14, 'consequently thrifty', 'upright', '2025-02-10 14:30:21');
                         """,
                 // 2) Seed jhi_user
                 """
-                        INSERT INTO userservice.jhi_user (
-                          id, login, password_hash, first_name, last_name, email, image_url,
-                          activated, lang_key, created_by, created_date, last_modified_by, last_modified_date
-                        ) VALUES
-                          (1, 'admin', '$2a$10$gSAhZrxMllrbgj/kkK9UceBPpChGWJA7SYIb1Mqo.n5aNLq1/oRrC',
-                           'Administrator', 'Administrator', 'admin@localhost', NULL,
-                           TRUE, 'en', 'system', '2025-02-28 12:00:00', 'system', '2025-02-28 12:00:00'),
-                          (2, 'user',  '$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K',
-                           'User',          'User',          'user@localhost',  NULL,
-                           TRUE, 'en', 'system', '2025-02-28 12:00:00', 'system', '2025-02-28 12:00:00')
-                        ON DUPLICATE KEY UPDATE login = VALUES(login);
+                        INSERT INTO orderService.order_item (id, product_id, quantity, price, order_id) VALUES
+                                                                      (1, 1, 9401, 21244.65, 1),
+                                                                      (2, 2, 13504, 789.87, 1),
+                                                                      (3, 2, 18590, 6303.01, 2),
+                                                                      (4, 1, 10737, 21916.71, 2);
                         """,
                 // 3) Seed jhi_user_authority
                 """
-                        INSERT INTO userservice.jhi_user_authority (user_id, authority_name) VALUES
-                          (1, 'ROLE_ADMIN'),
-                          (1, 'ROLE_USER'),
-                          (2, 'ROLE_USER')
-                        ON DUPLICATE KEY UPDATE user_id = user_id;
-                        """,
-                // 4) Seed address
-                """
-                        INSERT INTO userservice.address
-                          (id, user_id_1, street, city, state, country, postal_code) VALUES
-                          (1, 1, 'Stoney Lane',     'Fort Pierce',   'pick uneven distinct', 'Albania', 'frizz gradient'),
-                          (2, 2, 'E Franklin Street','Pembroke Pines','anti',               'Slovenia','whereas')
-                        ON DUPLICATE KEY UPDATE id = id;
+                        INSERT INTO orderService.payment (id, payment_method, transaction_id, payment_status, payment_date, order_id) VALUES
+                                                                  (1, 'reorient voluntarily', 'interestingly eek readily', 'gah drat apropos', '2025-02-11 00:13:49', 1),
+                                                                  (2, 'than massage', 'manner', 'junior provision impossible', '2025-02-10 23:34:14', 2);
                         """
         );
 
@@ -204,9 +187,9 @@ public class DbInitController {
             // now verify row counts
             Map<String, Integer> counts = new LinkedHashMap<>();
             try (Statement stmt = conn.createStatement()) {
-                for (String table : List.of("jhi_authority", "jhi_user", "jhi_user_authority", "address")) {
+                for (String table : List.of("jhi_order", "order_item", "payment")) {
                     try (ResultSet rs = stmt.executeQuery(
-                            "SELECT COUNT(*) FROM userservice." + table)) {
+                            "SELECT COUNT(*) FROM orderService." + table)) {
                         if (rs.next()) {
                             counts.put(table, rs.getInt(1));
                         }
