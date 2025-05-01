@@ -37,20 +37,20 @@ jobs:
 
           # Build and push user-service
           cd userService
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/user-service:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/user-service:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/userService:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/userService:latest
           cd ..
           
           # Build and push order-service
           cd orderService
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/order-service:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/order-service:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/orderService:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/orderService:latest
           cd ..
           
           # Build and push product-service
           cd productService
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/product-service:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/product-service:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/productService:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/productService:latest
           cd ..
 
       - name: Prepare Deploy Script
@@ -95,37 +95,40 @@ jobs:
           SQL_USER: ${{ secrets.SQL_USER }}
 
       - name: Deploy User Service
-        run: bash deploy.sh user-service user-service 8081
+        run: bash deploy.sh userService userService 8083
         env:
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_HOST: ${{ secrets.USER_SERVICE_HOST }}
           EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           GATEWAY_URL: ${{ secrets.GATEWAY_URL }}
+          SERVICE_URL: ${{ secrets.USER_SERVICE_URL }}
           SQL_HOST: ${{ secrets.SQL_HOST }}
           SQL_PW: ${{ secrets.SQL_PW }}
           SQL_USER: ${{ secrets.SQL_USER }}
 
       - name: Deploy Order Service
-        run: bash deploy.sh order-service order-service 8085
+        run: bash deploy.sh orderService orderService 8085
         env:
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_HOST: ${{ secrets.USER_SERVICE_HOST }}
           EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           GATEWAY_URL: ${{ secrets.GATEWAY_URL }}
+          SERVICE_URL: ${{ secrets.USER_SERVICE_URL }}
           SQL_HOST: ${{ secrets.SQL_HOST }}
           SQL_PW: ${{ secrets.SQL_PW }}
           SQL_USER: ${{ secrets.SQL_USER }}
 
       - name: Deploy Product Service
-        run: bash deploy.sh product-service product-service 8084
+        run: bash deploy.sh productService productService 8084
         env:
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_HOST: ${{ secrets.PRODUCT_SERVICE_HOST }}
           EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           GATEWAY_URL: ${{ secrets.GATEWAY_URL }}
+          SERVICE_URL: ${{ secrets.PRODUCT_SERVICE_URL }}
           SQL_HOST: ${{ secrets.SQL_HOST }}
           SQL_PW: ${{ secrets.SQL_PW }}
           SQL_USER: ${{ secrets.SQL_USER }}

@@ -7,6 +7,8 @@ spring:
 eureka:
   instance:
     hostname: ${GATEWAY_URL:localhost}
+    prefer-ip-address: true
+    ip-address: ${GATEWAY_URL:localhost}
   client:
     register-with-eureka: false
     fetch-registry: false
