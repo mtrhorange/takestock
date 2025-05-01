@@ -4,7 +4,7 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://13.229.124.81:8761
+      defaultZone: http://${GATEWAY_URL:localhost}:8761
 
 management:
   tracing:
@@ -15,7 +15,7 @@ spring:
   application:
     name: api-gateway
   config:
-    import: "optional:configserver:http://13.229.124.81:8088"
+    import: "optional:configserver:http://54.206.153.186:8088"
   cloud:
     gateway:
       default-filters:

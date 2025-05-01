@@ -65,6 +65,10 @@ jobs:
           EC2_HOST: ${{ secrets.GATEWAY_HOST }}
           EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          GATEWAY_URL: ${{ secrets.GATEWAY_URL }}
+          SQL_HOST: ${{ secrets.SQL_HOST }}
+          SQL_PW: ${{ secrets.SQL_PW }}
+          SQL_USER: ${{ secrets.SQL_USER }}
 
       - name: Deploy Config Service
         run: bash deploy.sh config-service config-service 8088
@@ -73,6 +77,10 @@ jobs:
           EC2_HOST: ${{ secrets.GATEWAY_HOST }}
           EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          GATEWAY_URL: ${{ secrets.GATEWAY_URL }}
+          SQL_HOST: ${{ secrets.SQL_HOST }}
+          SQL_PW: ${{ secrets.SQL_PW }}
+          SQL_USER: ${{ secrets.SQL_USER }}
 
       - name: Deploy API Gateway
         run: bash deploy.sh api-gateway api-gateway 8060
@@ -81,6 +89,10 @@ jobs:
           EC2_HOST: ${{ secrets.GATEWAY_HOST }}
           EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          GATEWAY_URL: ${{ secrets.GATEWAY_URL }}
+          SQL_HOST: ${{ secrets.SQL_HOST }}
+          SQL_PW: ${{ secrets.SQL_PW }}
+          SQL_USER: ${{ secrets.SQL_USER }}
 
       - name: Deploy User Service
         run: bash deploy.sh user-service user-service 8081
@@ -89,6 +101,10 @@ jobs:
           EC2_HOST: ${{ secrets.USER_SERVICE_HOST }}
           EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          GATEWAY_URL: ${{ secrets.GATEWAY_URL }}
+          SQL_HOST: ${{ secrets.SQL_HOST }}
+          SQL_PW: ${{ secrets.SQL_PW }}
+          SQL_USER: ${{ secrets.SQL_USER }}
 
       - name: Deploy Order Service
         run: bash deploy.sh order-service order-service 8085
@@ -97,6 +113,10 @@ jobs:
           EC2_HOST: ${{ secrets.USER_SERVICE_HOST }}
           EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          GATEWAY_URL: ${{ secrets.GATEWAY_URL }}
+          SQL_HOST: ${{ secrets.SQL_HOST }}
+          SQL_PW: ${{ secrets.SQL_PW }}
+          SQL_USER: ${{ secrets.SQL_USER }}
 
       - name: Deploy Product Service
         run: bash deploy.sh product-service product-service 8084
@@ -105,3 +125,7 @@ jobs:
           EC2_HOST: ${{ secrets.PRODUCT_SERVICE_HOST }}
           EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          GATEWAY_URL: ${{ secrets.GATEWAY_URL }}
+          SQL_HOST: ${{ secrets.SQL_HOST }}
+          SQL_PW: ${{ secrets.SQL_PW }}
+          SQL_USER: ${{ secrets.SQL_USER }}

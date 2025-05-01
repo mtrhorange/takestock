@@ -4,7 +4,7 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://13.229.124.81:8761
+      defaultZone: http://${GATEWAY_URL:localhost}:8761
 
 management:
   tracing:
@@ -13,9 +13,9 @@ management:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/orderService?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC
-    username: root
-    password:
+    url: jdbc:mysql://${SQL_HOST:localhost}:3306/orderService?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC
+    username: ${SQL_USER:root}
+    password: ${SQL_PW}
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
   jpa:
