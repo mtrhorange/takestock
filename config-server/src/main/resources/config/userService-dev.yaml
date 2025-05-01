@@ -4,7 +4,7 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://${GATEWAY_URL:54.206.153.186}:8761/eureka/
+      defaultZone: http://${GATEWAY_URL:localhost}:8761/eureka/
 
 management:
   tracing:
@@ -34,7 +34,7 @@ spring:
       hibernate.query.in_clause_parameter_padding: true
     hibernate:
       ddl-auto: update
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.MySQL8Dialect
   hikari:
     maximum-pool-size: 10
     minimum-idle: 2

@@ -54,15 +54,10 @@ ssh -o StrictHostKeyChecking=no -i ec2_key.pem "$EC2_USER@$EC2_HOST" <<EOF
   sudo docker stop $CONTAINER_NAME || true
   sudo docker rm $CONTAINER_NAME || true
 
-  echo "Creating Docker network if it doesn't exist..."
-  sudo docker network inspect my-microservice-network >/dev/null 2>&1 || \
-  sudo docker network create my-microservice-network
-
   echo "Using image: $DOCKER_USERNAME/$SERVICE_NAME:latest"
   echo "Running new container..."
   sudo docker run -d \
     --name "$CONTAINER_NAME" \
-    --network my-microservice-network \
     -p "$CONTAINER_PORT:$CONTAINER_PORT" \
     -e GATEWAY_URL="$GATEWAY_URL" \
     -e SQL_HOST="$SQL_HOST" \
