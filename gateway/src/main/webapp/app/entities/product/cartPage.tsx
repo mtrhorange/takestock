@@ -9,7 +9,7 @@ import axios from 'axios';
 const apiUrl = 'api/';
 
 const CartPage: React.FC = () => {
-  const { cart, removeFromCart, updateQuantity, toggleSelect } = useCart();
+  const { cart, removeFromCart, updateQuantity, toggleSelect, clearCart } = useCart();
   const navigate = useNavigate();
   const [selectAll, setSelectAll] = useState(false);
   const account = JSON.parse(localStorage.getItem('account') || 'null');
@@ -58,6 +58,7 @@ const CartPage: React.FC = () => {
     const requestUrl = `${apiUrl}orders/placeOrder`;
     axios.post(requestUrl, orderPayload).then(res => {
       axios.post(`${apiUrl}products/placeOrder`, selectedProducts).then(() => {
+        clearCart();
         navigate('/order-ack', { state: orderPayload });
       });
     });
